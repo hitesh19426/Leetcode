@@ -1,20 +1,19 @@
 class MedianFinder {
 public:
-    int count = 0;
+    bool isEven = true;
     multiset<int> minset, maxset;
-    MedianFinder() {
-        
-    }
+    MedianFinder() {}
     
     void addNum(int num) {
-        count++;
-        if(count&1){
+        isEven = !isEven;
+        if(!isEven){
             if(maxset.empty() || num >= *minset.rbegin())
                 maxset.insert(num);
             else{
                 minset.insert(num);
-                maxset.insert(*minset.rbegin());
-                minset.erase(minset.find(*minset.rbegin()));
+                auto itr = minset.rbegin();
+                maxset.insert(*itr);
+                minset.erase(minset.find(*itr));
             }
         }
         else{
@@ -23,20 +22,15 @@ public:
             }
             else{
                 maxset.insert(num);
-                minset.insert(*maxset.begin());
-                maxset.erase(maxset.begin());
+                auto itr = maxset.begin();
+                minset.insert(*itr);
+                maxset.erase(itr);
             }
         }
-        
-//         minset.insert(num);
-//         if(minset.size() > maxset.size()){
-//             maxset.insert(*minset.rbegin());
-//             minset.erase(minset.find(*minset.rbegin()));
-//         }
     }
     
     double findMedian() {
-        if(count&1){
+        if(!isEven){
             return (*maxset.begin());
         }
         return (*minset.rbegin() + *maxset.begin())/2.0;

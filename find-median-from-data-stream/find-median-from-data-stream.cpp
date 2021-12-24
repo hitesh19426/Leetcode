@@ -1,39 +1,39 @@
 class MedianFinder {
 public:
     bool isEven = true;
-    multiset<int> minset, maxset;
+    // multiset<int> minset, maxset;
+    priority_queue<int> minset;
+    priority_queue<int, vector<int>, greater<int>> maxset;
     MedianFinder() {}
     
     void addNum(int num) {
         isEven = !isEven;
         if(!isEven){
-            if(maxset.empty() || num >= *minset.rbegin())
-                maxset.insert(num);
+            if(maxset.empty() || num >= minset.top())
+                maxset.push(num);
             else{
-                minset.insert(num);
-                auto itr = minset.rbegin();
-                maxset.insert(*itr);
-                minset.erase(minset.find(*itr));
+                minset.push(num);
+                maxset.push(minset.top());
+                minset.pop();
             }
         }
         else{
-            if(num <= *maxset.begin()){
-                minset.insert(num);
+            if(num <= maxset.top()){
+                minset.push(num);
             }
             else{
-                maxset.insert(num);
-                auto itr = maxset.begin();
-                minset.insert(*itr);
-                maxset.erase(itr);
+                maxset.push(num);
+                minset.push(maxset.top());
+                maxset.pop();
             }
         }
     }
     
     double findMedian() {
         if(!isEven){
-            return (*maxset.begin());
+            return (maxset.top());
         }
-        return (*minset.rbegin() + *maxset.begin())/2.0;
+        return (minset.top() + maxset.top())/2.0;
     }
 };
 

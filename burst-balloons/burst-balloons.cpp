@@ -11,15 +11,11 @@ public:
         vector<vector<int>> dp(n+2, vector<int>(n+2, 0));
         
         for(int len=0; len<n; len++){
-            for(int x=1, y=len+1; x<=n && y<=n; x++, y++){
+            for(int left=1; len+left<=n; left++){
+                int right = left+len;
                 
-                if(x == y){
-                    dp[x][y] = arr[x-1]*arr[x]*arr[x+1];
-                    continue;
-                }
-                
-                for(int k=x; k<=y; k++)
-                    dp[x][y] = max(dp[x][y], dp[x][k-1] + dp[k+1][y] + arr[x-1]*arr[k]*arr[y+1]);
+                for(int k=left; k<=right; k++)
+                    dp[left][right] = max(dp[left][right], dp[left][k-1] + dp[k+1][right] + arr[left-1]*arr[k]*arr[right+1]);
                 
             }
         }

@@ -6,7 +6,7 @@ public:
         
         int ptr1 = index-1, ptr2 = index, n = nums.size();
         while(ptr1 >=0 && ptr2 < n){
-            if(nums[ptr1]*nums[ptr1] < nums[ptr2]*nums[ptr2])
+            if(-nums[ptr1] < nums[ptr2])
                 ans.push_back(nums[ptr1]*nums[ptr1--]);
             else
                 ans.push_back(nums[ptr2]*nums[ptr2++]);

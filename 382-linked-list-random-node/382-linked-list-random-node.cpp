@@ -12,11 +12,9 @@ class Solution {
 public:
     vector<int> nodes;
     Solution(ListNode* head) {
-        nodes.clear();
-        ListNode* ptr = head;
-        while(ptr){
-            nodes.push_back(ptr->val);
-            ptr = ptr->next;
+        while(head){
+            nodes.push_back(head->val);
+            head = head->next;
         }
     }
     

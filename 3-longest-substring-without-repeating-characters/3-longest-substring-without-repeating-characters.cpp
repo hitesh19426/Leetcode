@@ -6,7 +6,6 @@ public:
         memset(umap, -1, sizeof(umap));
         
         for(int i=0; i<(int)s.size(); i++){
-            cout << last << " " << umap[s[i]];
             last = max(last, umap[s[i]]);
             ans = max(ans, i-last);
             umap[s[i]] = i;

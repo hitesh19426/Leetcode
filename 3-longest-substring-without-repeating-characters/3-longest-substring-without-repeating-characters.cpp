@@ -2,14 +2,13 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int ans = 0, last = -1;
-        unordered_map<char, int> umap;
+        int umap[256];
+        memset(umap, -1, sizeof(umap));
         
-        for(auto i=0u; i<s.size(); i++){
-            if(umap.find(s[i]) != umap.end())
-                last = max(last, umap[s[i]]);
-            
-            int cur = i-last;
-            ans = max(ans, cur);
+        for(int i=0; i<(int)s.size(); i++){
+            cout << last << " " << umap[s[i]];
+            last = max(last, umap[s[i]]);
+            ans = max(ans, i-last);
             umap[s[i]] = i;
         }
         

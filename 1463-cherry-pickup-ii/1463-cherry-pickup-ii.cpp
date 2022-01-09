@@ -2,7 +2,8 @@ class Solution {
 public:
     int cherryPickup(vector<vector<int>>& grid) {
         int row = grid.size(), col = grid[0].size();
-        vector<vector<vector<int>>> dp(row, vector<vector<int>>(col, vector<int>(col, 0)));
+        int dp[row][col][col];
+        memset(dp, 0, sizeof(dp));
         
         for(int i=row-1; i>=0; i--){
             for(int r1=0; r1<col; r1++){

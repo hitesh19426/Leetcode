@@ -18,19 +18,16 @@ public:
         
         vector<int> direc{1, 0, -1, 0, 1};
         while(!queue.empty()){
-            int sz = queue.size();
-            while(sz--){
-                auto top = queue.front();
-                queue.pop();
-                
-                for(int i=0; i<4; i++){
-                    int x = top[0]+direc[i], y = top[1]+direc[i+1];
-                    if(x>=0 && y>=0 && x<m && y<n && grid[x][y]==1){
-                        queue.push({x, y, top[2]+1});
-                        grid[x][y] = 0;
-                        ans = max(ans, top[2]+1);
-                        fresh--;
-                    }
+            auto top = queue.front();
+            queue.pop();
+
+            for(int i=0; i<4; i++){
+                int x = top[0]+direc[i], y = top[1]+direc[i+1];
+                if(x>=0 && y>=0 && x<m && y<n && grid[x][y]==1){
+                    queue.push({x, y, top[2]+1});
+                    grid[x][y] = 0;
+                    ans = max(ans, top[2]+1);
+                    fresh--;
                 }
             }
         }

@@ -8,7 +8,6 @@ public:
             for(int j=0; j<n; j++){
                 if(grid[i][j] == 2){
                     queue.push({i, j, 0});
-                    grid[i][j] = 0;
                 }
                 if(grid[i][j] == 1){
                     fresh++;
@@ -25,7 +24,7 @@ public:
                 int x = top[0]+direc[i], y = top[1]+direc[i+1];
                 if(x>=0 && y>=0 && x<m && y<n && grid[x][y]==1){
                     queue.push({x, y, top[2]+1});
-                    grid[x][y] = 0;
+                    grid[x][y] = 2;
                     ans = max(ans, top[2]+1);
                     fresh--;
                 }

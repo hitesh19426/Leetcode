@@ -4,9 +4,9 @@ public:
         int total = duration;
         
         for(int i=1; i<(int)timeSeries.size(); i++){
-            int currentStart = timeSeries[i], end = timeSeries[i-1]+duration-1;
+            int end = timeSeries[i-1]+duration-1;
             
-            int overlap = max(0, end - currentStart + 1);
+            int overlap = max(0, end - timeSeries[i] + 1);
             total += duration - overlap;
         }
         

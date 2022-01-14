@@ -5,19 +5,15 @@ public:
         
         int m = firstList.size(), n = secondList.size(), i = 0,  j = 0;
         while(i<m && j<n){
-            if(firstList[i][1] < secondList[j][0]){
-                i++;
-            }
-            else if(firstList[i][0] > secondList[j][1]){
-                j++;
-            }
-            else{
-                auto point = {max(firstList[i][0], secondList[j][0]), min(firstList[i][1], secondList[j][1])};
+            int start = max(firstList[i][0], secondList[j][0]);
+            int end = min(firstList[i][1], secondList[j][1]);
+            auto point = {start, end};
+            
+            if(start <= end)
                 ans.push_back(point);
-                if(firstList[i][1] < secondList[j][1])
-                    i++;
-                else j++;
-            }
+            if(firstList[i][1] < secondList[j][1])
+                i++;
+            else j++;
         }
         return ans;
     }

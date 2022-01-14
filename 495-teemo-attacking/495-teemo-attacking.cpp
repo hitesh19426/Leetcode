@@ -1,19 +1,13 @@
 class Solution {
 public:
     int findPoisonedDuration(vector<int>& timeSeries, int duration) {
-        int total = duration, start = -1, end = -1;
-        start = timeSeries[0], end = timeSeries[0]+duration-1;
+        int total = duration;
         
         for(int i=1; i<(int)timeSeries.size(); i++){
-            int currentStart = timeSeries[i];
-            int currentEnd = timeSeries[i]+duration-1;
-            if(end < currentStart){
-                total += duration;
-            }
-            else{
-                total += currentEnd - end;
-            }
-            start = currentStart, end = currentEnd;
+            int currentStart = timeSeries[i], end = timeSeries[i-1]+duration-1;
+            
+            int overlap = max(0, end - currentStart + 1);
+            total += duration - overlap;
         }
         
         return total;

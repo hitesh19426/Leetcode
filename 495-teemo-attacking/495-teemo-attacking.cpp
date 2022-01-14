@@ -5,21 +5,22 @@ public:
         start = timeSeries[0], end = timeSeries[0]+duration-1;
         
         for(int i=1; i<(int)timeSeries.size(); i++){
-            if(end < timeSeries[i] ){
+            int currentStart = timeSeries[i];
+            int currentEnd = timeSeries[i]+duration-1;
+            if(end < currentStart){
                 total += duration;
-                start = timeSeries[i], end = timeSeries[i]+duration-1;
             }
             else{
-                total += timeSeries[i]+duration-1 - end;
-                end = timeSeries[i]+duration-1;
+                total += currentEnd - end;
             }
+            start = currentStart, end = currentEnd;
         }
         
         return total;
         
         
         /*
-        Sort intervals wrt start points;
+        Sort intervals wrt start points; -- you only need last inserted interval to determine overlapping or insert into array case.
         if(ans == empty || end point of last ans < current start)
             ans += interval
         else

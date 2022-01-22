@@ -6,8 +6,10 @@ public:
             if(flowerbed[i]==0 && (i-1<0 || flowerbed[i-1]==0) && (i+1>=s || flowerbed[i+1]==0)){
                 flowerbed[i] = 1;
                 count++;
+                i++;
             }
-            // cout << flowerbed[i] << " ";
+            if(count >= n)
+                return true;
         }
         return count>=n;
     }

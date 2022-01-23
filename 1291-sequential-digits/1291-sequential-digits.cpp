@@ -1,30 +1,28 @@
+vector<int> fill_numbers(){
+    string str = "123456789";
+    vector<int> numbers;
+    for(int len=2; len<=9; len++){
+        for(int i=0; i+len-1<9; i++){
+            numbers.push_back(stoi(str.substr(i, len)));
+        }
+    }
+    return numbers;
+}
+
 class Solution {
 public:
-    const vector<int> startnum{0, 1, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789};
-    const vector<int> add{0, 1, 11, 111, 1111, 11111, 111111, 1111111, 11111111, 111111111};
+    static vector<int> numbers;
     
-    int count_digits(int n){
-        int count = 0;
-        while(n){
-            count++;
-            n /= 10;
-        }
-        return count;
-    }
     vector<int> sequentialDigits(int low, int high) {
-        int lowdigits = count_digits(low), highdigits = count_digits(high);
-        
         vector<int> ans;
-        for(int i=lowdigits; i<=highdigits && i<=9; i++){
-            int num = startnum[i];
-            while(num%10 != 0){
-                if(num >= low && num<=high){
-                    ans.push_back(num);
-                }
-                num += add[i];
+        for(int &x: Solution::numbers){
+            if(x >= low && x <=high){
+                ans.push_back(x);
             }
         }
         
         return ans;
     }
 };
+
+auto Solution::numbers = fill_numbers();

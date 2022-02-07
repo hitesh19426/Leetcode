@@ -1,18 +1,31 @@
 class HitCounter {
-    queue<int> hitwindow;
+    int sum = 0;
+    queue<pair<int,int>> hitwindow;
+    
 public:
     HitCounter() {}
     
     void hit(int timestamp) {
-        while(not hitwindow.empty() && hitwindow.front() <= timestamp-300)
+        while(not hitwindow.empty() && hitwindow.front().first <= timestamp-300){
+            sum -= hitwindow.front().second;
             hitwindow.pop();
-        hitwindow.push(timestamp);
+        }
+        
+        if(hitwindow.empty() || hitwindow.back().first != timestamp){
+            hitwindow.push({timestamp, 1});
+        }
+        else{
+            hitwindow.back().second++;
+        }
+        sum++;
     }
     
     int getHits(int timestamp) {
-        while(not hitwindow.empty() && hitwindow.front() <= timestamp-300)
+        while(not hitwindow.empty() && hitwindow.front().first <= timestamp-300){
+            sum -= hitwindow.front().second;
             hitwindow.pop();
-        return hitwindow.size();
+        }
+        return sum;
     }
 };
 

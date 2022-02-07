@@ -1,3 +1,5 @@
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
 class Solution {
 public:
     vector<int> prefix;
@@ -13,7 +15,7 @@ public:
     }
     
     int pickIndex() {
-        int index = rand()%sum;
+        int index = rng()%sum;
         return lower_bound(prefix.begin(), prefix.end(), index) - prefix.begin();
     }
 };

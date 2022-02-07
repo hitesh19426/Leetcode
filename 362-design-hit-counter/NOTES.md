@@ -1,1 +1,1 @@
-​
+So this idea is similar to minimum sliding window, at each timestamp, you only need to maintain the last 300 timestamps, and nothing more. So for each timestamp, you can discard the precious ones.

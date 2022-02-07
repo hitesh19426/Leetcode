@@ -1,14 +1,11 @@
 class HitCounter {
-public:
-    int sum = 0;
     queue<int> hitwindow;
+public:
     HitCounter() {}
     
     void hit(int timestamp) {
-        while(not hitwindow.empty() && hitwindow.front() <= timestamp-300){
+        while(not hitwindow.empty() && hitwindow.front() <= timestamp-300)
             hitwindow.pop();
-        }
-        
         hitwindow.push(timestamp);
     }
     

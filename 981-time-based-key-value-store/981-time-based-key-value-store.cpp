@@ -1,26 +1,27 @@
 class TimeMap {
-    map<int, int, greater<int>> position;
-    vector<pair<string, string>> timemap;
+    map<string, vector<pair<int, string>>> position;   // strings, vector of timestamp, value
+    // vector<pair<string, string>> timemap;
 
 public:
     TimeMap() {}
     
     void set(string key, string value, int timestamp) {
-        position[timestamp] = timemap.size();
-        timemap.push_back({key, value});
+        position[key].push_back({timestamp, value});
+        // timemap.push_back({key, value});
     }
     
     string get(string key, int timestamp) {
-        auto itr = position.lower_bound(timestamp);
-        if(itr == position.end() )
-            return "";
-        int index = itr->second;
-        while(index>=0){
-            if(timemap[index].first == key)
-                return timemap[index].second;
-            index--;
+        auto &positions = position[key];
+        int low = 0, high = positions.size()-1, ans = -1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(positions[mid].first <= timestamp)
+                ans = mid, low = mid+1;
+            else
+                high = mid-1;
         }
-        return "";
+        
+        return (ans == -1 ? "" : positions[ans].second);
     }
 };
 

@@ -1,5 +1,5 @@
 class TimeMap {
-    map<string, vector<pair<int, string>>> position;   // strings, vector of timestamp, value
+    unordered_map<string, vector<pair<int, string>>> position;   // strings, vector of timestamp, value
     // vector<pair<string, string>> timemap;
 
 public:
@@ -7,7 +7,6 @@ public:
     
     void set(string key, string value, int timestamp) {
         position[key].push_back({timestamp, value});
-        // timemap.push_back({key, value});
     }
     
     string get(string key, int timestamp) {

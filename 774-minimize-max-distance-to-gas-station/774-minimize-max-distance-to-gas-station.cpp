@@ -10,7 +10,7 @@ public:
     
     double minmaxGasDist(vector<int>& stations, int k) {
         double low = 0, high = stations.back(), epsilon = 1e-6, ans = -1;
-        for(int i=0; i<50; i++){
+        while(high-low >= epsilon){
             double mid = (low+high)/2;
             if(check(stations, mid, k))
                 ans = mid, high = mid;

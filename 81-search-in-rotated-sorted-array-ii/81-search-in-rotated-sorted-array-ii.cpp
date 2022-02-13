@@ -6,25 +6,17 @@ public:
             int mid = (low+high)/2;
             if(arr[mid] == target)
                 return true;
-            if(arr[mid] == arr[low]){
+            if(arr[low] == arr[mid]){
                 low++;
                 continue;
             }
             
-            bool midInFirstHalf = (arr[mid] >= arr[low]);
-            bool targetInFirstHalf = (target >= arr[low]);
-            
-            if(midInFirstHalf ^ targetInFirstHalf){ // different half
-                if(targetInFirstHalf)
-                    high = mid-1;
-                else
-                    low = mid+1;
+            bool targetOnLeft = (target >= arr[low]), midOnLeft = (arr[mid] >= arr[low]);
+            if(targetOnLeft ^ midOnLeft){
+                (targetOnLeft ? high = mid-1 : low = mid+1);
             }
-            else{   // same half
-                if(arr[mid] > target)
-                    high = mid-1;
-                else
-                    low = mid+1;
+            else{
+                (target < arr[mid] ?  high = mid-1 : low = mid+1);
             }
         }
         

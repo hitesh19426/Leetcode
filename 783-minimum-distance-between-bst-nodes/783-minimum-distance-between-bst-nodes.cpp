@@ -11,21 +11,21 @@
  */
 class Solution {
 public:
-    void inorder(TreeNode* root, TreeNode** prev, int &ans){
+    TreeNode* prev = NULL;
+    int ans = INT_MAX;
+    void inorder(TreeNode* root){
         if(!root) return;
         
-        inorder(root->left, prev, ans);
-        if(*prev)
-            ans = min(ans, root->val - (*prev)->val);
-        *prev = root;
+        inorder(root->left);
+        if(prev)
+            ans = min(ans, root->val - prev->val);
+        prev = root;
         
-        inorder(root->right, prev, ans);
+        inorder(root->right);
     }
     
     int minDiffInBST(TreeNode* root) {
-        TreeNode* prev = NULL;
-        int ans = INT_MAX;
-        inorder(root, &prev, ans);
+        inorder(root);
         return ans;
     }
 };

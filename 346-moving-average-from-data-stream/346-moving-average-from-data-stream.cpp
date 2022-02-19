@@ -1,18 +1,20 @@
 class MovingAverage {
 public:
-    int sum = 0, capacity;
-    queue<int> queue;
-    MovingAverage(int size) : capacity(size) {}
+    int sum = 0, size = 0, capacity, insert_index = 0;
+    vector<int> window;
+    MovingAverage(int size) : capacity(size) {
+        window.assign(size, 0);
+    }
     
     double next(int val) {
-        queue.push(val);
-        sum += val;
-        if(queue.size() > capacity){
-            sum -= queue.front();
-            queue.pop();
-        }
+        sum -= window[insert_index%(window.size())];
+        sum += (window[insert_index%(window.size())] = val);
         
-        return (double)sum/queue.size();
+        insert_index = (++insert_index)%(window.size());
+        if(size < window.size())
+            size++;
+        
+        return (double)sum/size;
     }
 };
 

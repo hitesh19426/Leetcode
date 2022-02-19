@@ -4,37 +4,37 @@ public:
         return (a>0 && b>0) || (a<0 && b<0);
     }
     vector<int> asteroidCollision(vector<int>& asteroids) {
-        vector<int> stack(asteroids.size());
+        vector<int> stack;
         
-        int sptr = 0, ptr = 0;
+        int ptr = 0;
         
         while(ptr < (int)asteroids.size()){
-            if(sptr == 0){
-                stack[sptr++] = asteroids[ptr++];
+            if(stack.empty()){
+                stack.emplace_back(asteroids[ptr++]);
             }
-            else if(sameSign(stack[sptr-1], asteroids[ptr])){
-                stack[sptr++] = asteroids[ptr++];
+            else if(sameSign(stack.back(), asteroids[ptr])){
+                stack.emplace_back(asteroids[ptr++]);
             }
-            else if(stack[sptr-1] < 0 && asteroids[ptr]>0){
-                stack[sptr++] = asteroids[ptr++];
+            else if(stack.back() < 0 && asteroids[ptr]>0){
+                stack.emplace_back(asteroids[ptr++]);
             }
             else{
-                if(sptr == 0){
-                    stack[sptr++] = asteroids[ptr++];
+                if(stack.empty()){
+                    stack.emplace_back(asteroids[ptr++]);
                 }
-                else if(stack[sptr-1] < -asteroids[ptr]){
-                    sptr--;
+                else if(stack.back() < -asteroids[ptr]){
+                    stack.pop_back();
                 }
-                else if(stack[sptr-1] == -asteroids[ptr]){
-                    sptr--, ptr++;
+                else if(stack.back() == -asteroids[ptr]){
+                    stack.pop_back(); ptr++;
                 }
-                else if(stack[sptr-1] > -asteroids[ptr]){
+                else if(stack.back() > -asteroids[ptr]){
                     ptr++;
                 }
             }
         }
         
-        stack.resize(sptr);
+        // stack.resize(stack.empty());
         return stack;
     }
 };

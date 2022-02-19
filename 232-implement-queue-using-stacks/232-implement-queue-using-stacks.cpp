@@ -17,8 +17,6 @@ public:
     int pop() {
         if(stack2.empty())
             transferFrom1to2();
-        if(stack2.empty())
-            return -1;
         int x = stack2.top();
         stack2.pop();
         return x;
@@ -27,8 +25,6 @@ public:
     int peek() {
         if(stack2.empty())
             transferFrom1to2();
-        if(stack2.empty())
-            return -1;
         return stack2.top();
     }
     

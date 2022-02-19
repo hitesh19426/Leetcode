@@ -4,20 +4,37 @@ public:
         return (a>0 && b>0) || (a<0 && b<0);
     }
     vector<int> asteroidCollision(vector<int>& asteroids) {
-        vector<int> stack;
+        vector<int> stack(asteroids.size());
         
-        for(int num: asteroids){
-            while(num<0 && !stack.empty() && stack.back()>0 && stack.back() < -num){
-                stack.pop_back();
+        int sptr = 0, ptr = 0;
+        
+        while(ptr < (int)asteroids.size()){
+            if(sptr == 0){
+                stack[sptr++] = asteroids[ptr++];
             }
-            if(!stack.empty() && num < 0 && stack.back() == -num){
-                stack.pop_back();
+            else if(sameSign(stack[sptr-1], asteroids[ptr])){
+                stack[sptr++] = asteroids[ptr++];
             }
-            else if(stack.empty() || sameSign(stack.back(), num) || (num>0 && stack.back() < 0)){
-                stack.push_back(num);
+            else if(stack[sptr-1] < 0 && asteroids[ptr]>0){
+                stack[sptr++] = asteroids[ptr++];
+            }
+            else{
+                if(sptr == 0){
+                    stack[sptr++] = asteroids[ptr++];
+                }
+                else if(stack[sptr-1] < -asteroids[ptr]){
+                    sptr--;
+                }
+                else if(stack[sptr-1] == -asteroids[ptr]){
+                    sptr--, ptr++;
+                }
+                else if(stack[sptr-1] > -asteroids[ptr]){
+                    ptr++;
+                }
             }
         }
         
+        stack.resize(sptr);
         return stack;
     }
 };

@@ -29,9 +29,7 @@ public:
     }
     
     bool empty() {
-        if(stack1.empty() && stack2.empty())
-            return true;
-        return false;
+        return stack1.empty() && stack2.empty();
     }
 };
 

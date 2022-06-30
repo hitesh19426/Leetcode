@@ -4,27 +4,18 @@
 class Solution {
 public:
     int findCelebrity(int n) {
-        vector<int> candidates;
-        for(int i=0; i<n; i++)
-            candidates.push_back(i);
-        
-        while(candidates.size() > 1){
-            int curr = candidates.back();
-            candidates.pop_back();
-            
-            if(knows(candidates.back(), curr)){
-                candidates.pop_back();
-                candidates.push_back(curr);
-            }
+        int cand = 0;
+        for(int i=1; i<n; i++){
+            if(knows(cand, i))
+                cand = i;
         }
         
-        // cout << candidates[0] << endl;
         for(int i=0; i<n; i++){
-            if(i == candidates[0])
+            if(i == cand)
                 continue;
-            if(knows(candidates[0], i) || !knows(i, candidates[0]))
+            if(knows(cand, i) || !knows(i, cand))
                 return -1;
         }
-        return candidates[0];
+        return cand;
     }
 };

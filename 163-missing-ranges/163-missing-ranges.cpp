@@ -1,25 +1,28 @@
 class Solution {
     void add(int a, int b, vector<string>& ranges){
-        if(b-1-a <= 0)
+        if(a > b)
             return;
-        if(a+1 == b-1)
-            ranges.push_back(to_string(a+1));
+        if(a == b)
+            ranges.push_back(to_string(a));
         else
-            ranges.push_back(to_string(a+1) + "->" + to_string(b-1));
+            ranges.push_back(to_string(a) + "->" + to_string(b));
     }
 public:
     vector<string> findMissingRanges(vector<int>& nums, int lower, int upper) {
         vector<string> ranges;
         if(nums.empty()){
-            add(lower-1, upper+1, ranges);
+            add(lower, upper, ranges);
             return ranges;
         }
         
-        add(lower-1, nums[0], ranges);
-        for(int i=0; i<(int)nums.size()-1; i++){
-            add(nums[i], nums[i+1], ranges);
-        }
-        add(nums.back(), upper+1, ranges);
+        if(lower != nums[0])
+            add(lower, nums[0]-1, ranges);
+
+        for(int i=0; i<(int)nums.size()-1; i++)
+            add(nums[i]+1, nums[i+1]-1, ranges);
+            
+        if(nums.back() != upper)
+            add(nums.back()+1, upper, ranges);
         
         return ranges;
     }

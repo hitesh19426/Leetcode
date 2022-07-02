@@ -1,42 +1,55 @@
+class Node{
+public:
+    int x, y, dist;
+    Node(int x, int y, int dist) : x(x), y(y), dist(dist) {}
+    
+    bool operator<(const Node& other) const {
+        if(dist != other.dist)
+            return dist < other.dist;
+        if(x != other.x)
+            return x < other.x;
+        return y < other.y;
+    }
+};
+
 class Solution {
     bool isvalid(int x, int y, int m, int n){
         return x>=0 && y>=0 && x<m && y<n;
     }
     
-    bool dfs(vector<vector<int>>& grid, vector<vector<bool>>& vis, int maxDiff, int x, int y){
+    int dijkstra(vector<vector<int>>& grid){
         int m = grid.size(), n = grid[0].size();
-        if(!isvalid(x, y, m, n) || vis[x][y])
-            return false;
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        set<Node> minheap;
         
-        vis[x][y] = true;
-        if(x == m-1 && y == n-1)
-            return true;
+        minheap.insert(Node(0, 0, 0));
+        dist[0][0] = 0;
         
-        int dir[] = {1, 0, -1, 0, 1};
-        for(int k=0; k<4; k++){
-            int newx = x + dir[k], newy = y + dir[k+1];
-            if(isvalid(newx, newy, m, n) && abs(grid[newx][newy] - grid[x][y]) <= maxDiff){
-                if(dfs(grid, vis, maxDiff, newx, newy))
-                    return true;
+        int dir[] = {1,0,-1,0,1}, res = 0;
+        while(!minheap.empty()){
+            auto [x, y, dis] = *minheap.begin();
+            minheap.erase(minheap.begin());
+            
+            if(x == m-1 && y == n-1)
+                return dis;
+            
+            for(int k=0; k<4; k++){
+                int newx = x+dir[k], newy = y+dir[k+1];
+                if(isvalid(newx, newy, m, n)){
+                    int newdist = max(dist[x][y], abs(grid[x][y] - grid[newx][newy]));
+                    if(dist[newx][newy] > newdist){
+                        minheap.erase(Node(newx, newy, dist[newx][newy]));
+                        dist[newx][newy] = newdist;
+                        minheap.insert(Node(newx, newy, dist[newx][newy]));    
+                    }
+                }
             }
         }
-        
-        return false;
+                                                 
+        return -1;
     }
-    
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int m = heights.size(), n = heights[0].size();
-        int low = 0, high = 1000000, ans = -1;
-        while(low <= high){
-            int mid = low + (high-low)/2;
-            vector<vector<bool>> vis(m, vector<bool>(n, false));
-            if(dfs(heights, vis, mid, 0, 0))
-                ans = mid, high = mid-1;
-            else
-                low = mid+1;
-        }
-        
-        return ans;
+        return dijkstra(heights);
     }
 };

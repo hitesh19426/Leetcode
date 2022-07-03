@@ -1,24 +1,23 @@
 class Solution {
+    int findSign(int a){
+        if(a == 0)
+            return 0;
+        return (a>0 ? 1 : -1);
+    }
 public:
     int wiggleMaxLength(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> up(n, 1), down(n, 1);
-        up[0] = down[0] = 1;
+        if(nums.size() == 1)
+            return 1;
         
-        for(int i=1; i<n; i++){
-            for(int j=0; j<i; j++){
-                if(nums[j] < nums[i]){
-                    up[i] = max(up[i], down[j]+1);
-                }
-            }
-            
-            for(int j=0; j<i; j++){
-                if(nums[j] > nums[i]){
-                    down[i] = max(down[i], up[j]+1);
-                }
+        int n = nums.size(), last = findSign(nums[1] - nums[0]), len = 1 + (last != 0);
+        for(int i=2; i<n; i++){
+            int curr = findSign(nums[i] - nums[i-1]);
+            if(curr != 0 && curr != last){
+                last = curr;
+                len++;
             }
         }
         
-        return max(up.back(), down.back());
+        return len;
     }
 };

@@ -40,6 +40,6 @@ public:
 };
 
 /*
-T(n, k) = n*k*logn + n*k
-SC(n, k) = n + n*k
+T(n, k) = n*k*logn
+SC(n, k) = n 
 */

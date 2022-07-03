@@ -1,57 +1,45 @@
 struct Node{
     int index, list_index, value;
     Node(int a, int b, int v) : index(a), list_index(b), value(v) {}
-};
-
-struct comparator{
-    bool operator()(const Node& a, const Node& b){
-        return a.value > b.value;
+    
+    bool operator<(const Node& other) const {
+        if(value != other.value)
+            return value < other.value;
+        if(index != other.index)
+            return index < other.index;
+        return list_index < other.list_index;
     }
 };
 
 class Solution {
 public:
     vector<int> smallestRange(vector<vector<int>>& nums) {
-        priority_queue<Node, vector<Node>, comparator> minheap;
+        set<Node> heap;
         
         for(int i=0; i<nums.size(); i++){
-            minheap.push(Node(i, 0, nums[i][0]));
+            heap.insert(Node(i, 0, nums[i][0]));
         }
         
-        vector<pair<int, int>> arr;
-        while(!minheap.empty()){
-            auto [index, list_index, value] = minheap.top();
-            minheap.pop();
-            
-            arr.push_back({index, value});
-            
-            if(list_index+1 < nums[index].size())
-                minheap.push(Node(index, list_index+1, nums[index][list_index+1]));
-        }
-        
-        vector<int> vis(nums.size(), 0);
-        int count = 0, start = 0, end = 0, n = nums.size();
         int rangel = 0, ranger = INT_MAX;
-        while(end < arr.size()){
-            if(vis[arr[end].first]++ == 0)
-                count++;
-            // vis[arr[end].first]++;
-            
-            while(count == n && start <= end){
-                // update answer
-                int diff = arr[end].second - arr[start].second;
-                if(diff < ranger - rangel){
-                    rangel = arr[start].second, ranger = arr[end].second;
-                }
-                
-                if(--vis[arr[start].first] == 0)
-                    count--;
-                start++;
+        while(!heap.empty()){
+            if(heap.size() == nums.size()){
+                int left = heap.begin()->value, right = heap.rbegin()->value;
+                if(right - left < ranger - rangel)
+                    rangel = left, ranger = right;
             }
             
-            end++;
+            auto [index, list_index, value] = *heap.begin();
+            heap.erase(heap.begin());
+            
+            if(list_index+1 < nums[index].size())
+                heap.insert(Node(index, list_index+1, nums[index][list_index+1]));
         }
         
         return {rangel, ranger};
     }
 };
+
+/*
+T(n, k) = n*k*logn + n*k
+SC(n, k) = n + n*k
+*/

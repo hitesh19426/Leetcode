@@ -6,4 +6,6 @@ Mistake 3: When invalidating key, remove key when cache is full, if it is then r
 ​
 Mistake 4: what if cap = 0
 ​
+Mistake 5: Dont increase size when inserting new element.
+​
 ​

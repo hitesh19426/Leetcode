@@ -22,15 +22,15 @@ public:
         
         int rangel = 0, ranger = INT_MAX;
         while(!heap.empty()){
-            if(heap.size() == nums.size()){
-                int left = heap.begin()->value, right = heap.rbegin()->value;
-                if(right - left < ranger - rangel)
-                    rangel = left, ranger = right;
-            }
+            int left = heap.begin()->value, right = heap.rbegin()->value;
+            if(right - left < ranger - rangel)
+                rangel = left, ranger = right;
             
             auto [index, list_index, value] = *heap.begin();
             heap.erase(heap.begin());
             
+            if(list_index+1 == nums[index].size())
+                break;
             if(list_index+1 < nums[index].size())
                 heap.insert(Node(index, list_index+1, nums[index][list_index+1]));
         }

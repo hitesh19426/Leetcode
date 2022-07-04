@@ -41,22 +41,12 @@ public:
                 return -1;
         }
         
-        queue<int> queue;
-        for(int i=0; i<n; i++){
-            freq[colors[i]-'a']++;
-            if(indegree[i] == 0)
-                queue.push(i);
-        }
-        
         int ans = 0;
         vector<vector<int>> dp(n, vector<int>());
-        while(!queue.empty()){
-            int node = queue.front();
-            queue.pop();
-            auto vec = dfs(node, colors, dp, graph);
+        for(int i=0; i<n; i++){
+            auto vec = dfs(i, colors, dp, graph);
             ans = max(ans, *max_element(vec.begin(), vec.end()));
         }
-        
         return ans;
     }
 };

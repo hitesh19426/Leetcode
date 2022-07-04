@@ -28,12 +28,11 @@ class Solution {
 public:
     int largestPathValue(string colors, vector<vector<int>>& edges) {
         int n = colors.size();
-        vector<int> status(n, WHITE), indegree(n, 0), freq(26, 0);
+        vector<int> status(n, WHITE);
         vector<vector<int>> graph(n, vector<int>());
         
         for(auto& edge: edges){
             graph[edge[0]].push_back(edge[1]);
-            indegree[edge[1]]++;
         }
         
         for(int i=0; i<n; i++){

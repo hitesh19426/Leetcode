@@ -6,17 +6,16 @@ public:
         
         int count = k, n = arr.size();
         vector<int> ans;
-        while(right < n && left >=0 && count>0){
+        while(right < n && left >=0 && count--){
             if(abs(arr[left]-x) <= abs(arr[right]-x))
                 left--;
             else
                 right++;
-            count--;
         }
         
         while(left>=0 && count>0)
             left--, count--;
-        while(right < n && count)
+        while(right < n && count>0)
             right++, count--;
         
         return vector<int> (arr.begin()+left+1, arr.begin()+right);

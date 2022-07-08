@@ -21,12 +21,10 @@ public:
             return ptr;
         }
         
-        
         if(node->parent == NULL)
             return NULL;
-        auto ptr = node->parent;
-        while(ptr && ptr->right == node)
-            node = ptr, ptr = ptr->parent;
-        return ptr;
+        while(node->parent && node->parent->right == node)
+            node = node->parent;
+        return node->parent;
     }
 };

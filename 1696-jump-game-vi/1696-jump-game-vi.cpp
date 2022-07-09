@@ -25,19 +25,18 @@ class Solution {
     }
 public:
     int maxResult(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> dp(n, INT_MAX);
+        int n = nums.size(), ans = 0;
         st.assign(4*n, INT_MIN);
         
-        dp[n-1] = nums[n-1];
-        update(0, n-1, 1, n-1, dp[n-1]);
+        update(0, n-1, 1, n-1, nums[n-1]);
+        ans = nums[n-1];
         for(int i=n-2; i>=0; i--){
             int left = i+1, right = min(n-1, i+k);
-            int query_ans = query_max(0, n-1, 1, left, right);            
-            dp[i] = query_ans + nums[i];
-            update(0, n-1, 1, i, dp[i]);
+            int query_ans = query_max(0, n-1, 1, left, right);
+            update(0, n-1, 1, i, query_ans + nums[i]);
+            ans = query_ans + nums[i];
         }
         
-        return dp[0];
+        return ans;
     }
 };

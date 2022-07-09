@@ -1,42 +1,29 @@
 class Solution {
-    vector<int> st;
-    void update(int low, int high, int root, int ind, int new_val){
-        if(ind < low || high < ind)
-            return;
-        if(low == high){
-            st[root] = new_val;
-            return;
-        }
-        int mid = low + (high-low)/2;
-        update(low, mid, 2*root, ind, new_val);
-        update(mid+1, high, 2*root+1, ind, new_val);
-        st[root] = max(st[2*root], st[2*root+1]);
+    void add(deque<int>& window, vector<int>& dp, int ind){
+        while(!window.empty() && dp[ind] >= dp[window.front()])
+            window.pop_front();
+        window.push_front(ind);
     }
     
-    int query_max(int low, int high, int root, int a, int b){
-        if(b < low || high < a)
-            return INT_MIN;
-        if(a <= low && high <= b)
-            return st[root];
-        int mid = low + (high-low)/2;
-        auto left = query_max(low, mid, 2*root, a, b);
-        auto right = query_max(mid+1, high, 2*root+1, a, b);
-        return max(left, right);
+    int query(deque<int>& window, int ind, int right){
+        while(!window.empty() && window.back() > right)
+            window.pop_back();
+        return window.back();
     }
 public:
     int maxResult(vector<int>& nums, int k) {
         int n = nums.size(), ans = 0;
-        st.assign(4*n, INT_MIN);
+        deque<int> window;
+        vector<int> dp(n);
         
-        update(0, n-1, 1, n-1, nums[n-1]);
-        ans = nums[n-1];
+        add(window, dp, n-1);
+        dp[n-1] = nums[n-1];
         for(int i=n-2; i>=0; i--){
-            int left = i+1, right = min(n-1, i+k);
-            int query_ans = query_max(0, n-1, 1, left, right);
-            update(0, n-1, 1, i, query_ans + nums[i]);
-            ans = query_ans + nums[i];
+            int max_ind = query(window, i, min(n-1, i+k));
+            dp[i] = dp[max_ind] + nums[i];
+            add(window, dp, i);
         }
         
-        return ans;
+        return dp[0];
     }
 };

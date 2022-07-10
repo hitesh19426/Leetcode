@@ -12,7 +12,7 @@ class Solution {
 public:
     void gameOfLife(vector<vector<int>>& board) {
         int m = board.size(), n = board[0].size(), changed = false;
-        vector<vector<int>> nextState(m, vector<int>(n, -1));
+        vector<vector<int>> copyState(board);
         
         int dx[] = {1,0,-1,0,1,1,-1,-1};
         int dy[] = {0,-1,0,1,1,-1,1,-1};
@@ -21,13 +21,12 @@ public:
             for(int j=0; j<n; j++){
                 int count = 0;
                 for(int k=0; k<8; k++){
-                    if(isvalid(i+dx[k], j+dy[k], m, n) && board[i+dx[k]][j+dy[k]] == 1)
+                    if(isvalid(i+dx[k], j+dy[k], m, n) && copyState[i+dx[k]][j+dy[k]] == 1)
                         count++;
                 }
 
-                nextState[i][j] = find_next_state(board[i][j], count);
+                board[i][j] = find_next_state(copyState[i][j], count);
             }
         }
-        board = nextState;
     }
 };

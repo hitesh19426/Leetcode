@@ -1,15 +1,16 @@
 class Solution {
 public:
     string removeDigit(string number, char digit) {
-        string res = "";
+        int ind = -1;
         for(int i=0; i<number.size(); i++){
             if(number[i] == digit){
-                if(i == number.size() || number[i] < number[i+1])
-                    return number.substr(0, i) + number.substr(i+1);
+                if(i != number.size()-1 && number[i] < number[i+1]){
+                    ind = i; break;
+                }
                 else
-                    res = max(res, number.substr(0, i) + number.substr(i+1));
+                    ind = i;
             }
         }
-        return res;
+        return number.substr(0, ind) + number.substr(ind+1);
     }
 };

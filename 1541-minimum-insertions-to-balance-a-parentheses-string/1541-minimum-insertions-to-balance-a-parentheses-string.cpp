@@ -10,13 +10,8 @@ public:
             }
             else{
                 count--;
-                if(count < 0){
-                    count = 0;
-                    if(i != s.size()-1 && s[i+1] == ')')
-                        insertion++, i++;
-                    else
-                        insertion += 2;
-                }
+                if(count < 0)
+                    count += 2, insertion++;
             }
         }
         return insertion + count;

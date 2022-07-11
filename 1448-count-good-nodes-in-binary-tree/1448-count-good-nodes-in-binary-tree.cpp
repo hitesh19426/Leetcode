@@ -10,25 +10,21 @@
  * };
  */
 class Solution {
-    void dfs(TreeNode* root, map<int, int>& count, int &ans){
+    void dfs(TreeNode* root, int max_value_on_path, int &ans){
         if(root == NULL)
             return;
         
-        count[root->val]++;
-        if(count.rbegin()->first == root->val)
+        max_value_on_path = max(max_value_on_path, root->val);
+        if(max_value_on_path == root->val)
             ans++;
         
-        dfs(root->left, count, ans);
-        dfs(root->right, count, ans);
-        
-        if(--count[root->val] == 0)
-            count.erase(root->val);
+        dfs(root->left, max_value_on_path, ans);
+        dfs(root->right, max_value_on_path, ans);
     }
 public:
     int goodNodes(TreeNode* root) {
         int ans = 0;
-        map<int, int> count;
-        dfs(root, count, ans);
+        dfs(root, INT_MIN, ans);
         return ans;
     }
 };

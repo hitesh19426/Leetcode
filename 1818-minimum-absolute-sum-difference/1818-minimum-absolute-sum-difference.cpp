@@ -1,25 +1,38 @@
 class Solution {
+    int findClosest(set<int>& seen, int x){
+        auto itr = seen.lower_bound(x);
+        int closest = INT_MAX;
+        if(itr != seen.end())
+            closest = *itr;
+        if(itr != seen.begin() && abs(*(--itr)-x) <  abs(closest -x))
+            closest = *itr;
+        return closest;
+    }
 public:
     int minAbsoluteSumDiff(vector<int>& nums1, vector<int>& nums2) {
         set<int> seen(nums1.begin(), nums1.end());
-        long max_gain = 0, sum = 0;
+        int maxDiff = INT_MIN, index = -1, actual_diff = -1;
         for(int i=0; i<nums2.size(); i++){
-            sum += abs(nums2[i] - nums1[i]);
+            int curr_closest = findClosest(seen, nums2[i]);
+            int closest_diff = abs(curr_closest - nums2[i]), diff = abs(nums1[i] - nums2[i]);
             
-            
-            int diff = INT_MAX;
-            auto itr = seen.lower_bound(nums2[i]);
-            if(itr != seen.end())
-                diff = *itr - nums2[i];
-            if(itr != seen.begin())
-                diff = min(diff, nums2[i] - *(--itr));
-            
-            int gain = abs(diff - abs(nums1[i] - nums2[i]));
-            if(gain > max_gain){
-                max_gain = gain;
+            // cout << abs(diff - closest_diff) << " ";
+            if(abs(diff - closest_diff) > maxDiff){
+                maxDiff = abs(diff - closest_diff);
+                actual_diff = abs(curr_closest - nums2[i]);
+                index = i;
             }
         }
         
-        return (sum - max_gain)%1000'000'007;
+        // cout << index << endl;
+        
+        long ans = 0;
+        for(int i=0; i<nums1.size(); i++){
+            if(i == index)
+                ans += actual_diff;
+            else
+                ans += abs(nums1[i] - nums2[i]);
+        }
+        return ans%1000'000'007;
     }
 };

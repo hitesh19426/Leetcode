@@ -2,7 +2,8 @@
 SELECT
     e.name as 'Employee'
 FROM
-    Employee AS e,
+    Employee AS e
+Join
     Employee AS m
-WHERE
+ON
     (e.managerId = m.id and e.salary > m.salary);

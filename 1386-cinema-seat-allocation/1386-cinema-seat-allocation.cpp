@@ -13,9 +13,9 @@ public:
             prevRow = arr[start][0];
             
             bool row[11] = {};
-            int end = start;
-            while(end<arr.size() && arr[end][0] == arr[start][0])
-                row[arr[end++][1]] = true;
+            int currRow = arr[start][0];
+            while(start<arr.size() && arr[start][0] == currRow)
+                row[arr[start++][1]] = true;
             
             bool status[3] = {};
             for(int i=0; i<3; i++){
@@ -31,8 +31,6 @@ public:
                 count += 2;
             else if(status[0] || status[1] || status[2])
                 count++;
-            
-            start = end;
         }
         
         return count + 2*(n-prevRow);

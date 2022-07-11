@@ -1,28 +1,23 @@
 class Solution {
-    int factorial(int n){
-        if(n <= 1)
-            return 1;
-        return n*factorial(n-1);
-    }
-    
-    void helper(string &ans, vector<char>& nums, int k){
-        if(nums.empty())
-            return;
-        
-        int n = nums.size();
-        int fac = factorial(n-1);
-        int group = k/fac, pos = k%fac;
-        ans += nums[group];
-        nums.erase(nums.begin()+group);
-        helper(ans, nums, pos);
-    }
 public:
     string getPermutation(int n, int k) {
         string ans = "";
         vector<char> nums;
         for(int i=1; i<=n; i++)
             nums.push_back('0'+i);
-        helper(ans, nums, --k);
+        
+        vector<int> fac(n+1, 1);
+        for(int i=2; i<=n; i++)
+            fac[i] = fac[i-1]*i;
+        
+        --k;
+        while(!nums.empty()){
+            int n = nums.size(), group = k/fac[n-1], pos = k%fac[n-1];
+            ans += nums[group];
+            nums.erase(nums.begin()+group);
+            k = pos;
+        }
+        
         return ans;
     }
 };

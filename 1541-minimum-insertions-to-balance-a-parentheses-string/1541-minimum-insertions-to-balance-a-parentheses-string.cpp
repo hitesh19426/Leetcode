@@ -11,10 +11,11 @@ public:
             else{
                 count--;
                 if(count < 0){
+                    count = 0;
                     if(i != s.size()-1 && s[i+1] == ')')
-                        insertion++, i++, count++;
+                        insertion++, i++;
                     else
-                        insertion += 2, count = 0;
+                        insertion += 2;
                 }
             }
         }

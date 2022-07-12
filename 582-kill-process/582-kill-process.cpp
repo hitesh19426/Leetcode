@@ -1,9 +1,4 @@
 class Solution {
-    void dfs(int src, unordered_map<int, vector<int>>& graph, vector<int>& ans){
-        ans.push_back(src);
-        for(int v: graph[src])
-            dfs(v, graph, ans);
-    }
 public:
     vector<int> killProcess(vector<int>& pid, vector<int>& ppid, int kill) {
         unordered_map<int, vector<int>> graph;
@@ -12,7 +7,18 @@ public:
         }
         
         vector<int> ans;
-        dfs(kill, graph, ans);
+        queue<int> queue;
+        queue.push(kill);
+        
+        while(!queue.empty()){
+            auto node = queue.front();
+            queue.pop();
+            ans.push_back(node);
+            
+            for(int v: graph[node])
+                queue.push(v);
+        }
+        
         return ans;
     }
 };

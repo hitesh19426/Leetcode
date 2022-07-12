@@ -15,7 +15,7 @@ public:
             queue.pop();
             ans.push_back(node);
             
-            for(int v: graph[node])
+            for(int &v: graph[node])
                 queue.push(v);
         }
         

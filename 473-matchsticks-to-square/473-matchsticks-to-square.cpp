@@ -7,6 +7,13 @@ class Solution {
         for(int i=0; i<4; i++){
             if(arr[ind] + sides[i] > target)
                 continue;
+            bool dont = false;
+            for(int j=0; j<i; j++){
+                if(sides[j] == sides[i])
+                    dont = true;
+            }
+            if(dont)
+                continue;
             sides[i] += arr[ind];
             if(dfs(ind+1, arr, sides, target))
                 return true;

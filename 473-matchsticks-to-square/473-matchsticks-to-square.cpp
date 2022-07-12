@@ -4,11 +4,7 @@ class Solution {
             return sides[0] == sides[1] && sides[1] == sides[2] && sides[2] == sides[3];
         }
         
-//         for(int x: sides)
-//             cout << x << " ";
-//         cout << endl;
-        
-        for(int i=0; i<=3; i++){
+        for(int i=0; i<4; i++){
             if(arr[ind] + sides[i] > target)
                 continue;
             sides[i] += arr[ind];
@@ -27,6 +23,8 @@ public:
                 
         vector<int> sides(4, 0);
         sort(arr.begin(), arr.end(), greater<int>());
+        if(arr[0] > sum/4)
+            return false;
         return dfs(0, arr, sides, sum/4);
     }
 };

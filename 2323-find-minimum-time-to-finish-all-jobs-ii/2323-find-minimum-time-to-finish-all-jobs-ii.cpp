@@ -1,16 +1,9 @@
-class Solution {
-public:
-    int minimumTime(vector<int>& jobs, vector<int>& workers) {
-        priority_queue<int> workers_pq(workers.begin(), workers.end());
-        priority_queue<int> jobs_pq(jobs.begin(), jobs.end());
+class Solution:
+    def minimumTime(self, jobs: List[int], workers: List[int]) -> int:
+        jobs.sort()
+        workers.sort()
         
-        int ans = 0;
-        while(!jobs_pq.empty()){
-            ans = max(ans, jobs_pq.top()/workers_pq.top() + (jobs_pq.top()%workers_pq.top() != 0));
-            jobs_pq.pop();
-            workers_pq.pop();
-        }
-        
-        return ans;
-    }
-};
+        ans = 0
+        for i in range(0, len(jobs)):
+            ans = max(ans, int(ceil(jobs[i]/workers[i])))
+        return ans

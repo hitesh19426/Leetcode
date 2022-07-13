@@ -5,8 +5,10 @@ public:
         while(low < high){
             if(s[low] != s[high])
                 count++;
+            if(count > 2)
+                return false;
             low++, high--;
         }
-        return count <= 2;
+        return true;
     }
 };

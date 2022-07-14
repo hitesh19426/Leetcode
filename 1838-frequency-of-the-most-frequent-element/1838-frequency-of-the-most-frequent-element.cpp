@@ -1,14 +1,14 @@
 class Solution {
-    int calculateMoveSuffix(int j, int ind, vector<int>& arr, vector<long long>& prefix){
+    int calculateMoveSuffix(int j, int ind, long long target, vector<long long>& prefix){
         // (arr[ind]-arr[j]) + (arr[ind]-arr[j+1]) + (arr[ind]-arr[j+2]) + () + ... + (arr[ind]-arr[ind])
-        return (long long)arr[ind]*(ind-j+1) - (prefix[ind+1] - prefix[j]);
+        return (long long)target*(ind-j) - (prefix[ind] - prefix[j]);
     }
     
-    int maxEqualElementsAfterMoves(vector<int>& arr, vector<long long>& prefix, int ind, int k){
-        int low = 0, high = ind, ans = ind;
+    int maxEqualElementsAfterMoves(long long target, vector<long long>& prefix, int ind, int k){
+        int low = 0, high = ind-1, ans = ind;
         while(low <= high){
             int mid = low+(high-low)/2;
-            if(calculateMoveSuffix(mid, ind, arr, prefix) <= k)
+            if(calculateMoveSuffix(mid, ind, target, prefix) <= k)
                 ans = mid, high = mid-1;
             else
                 low = mid+1;
@@ -20,12 +20,11 @@ public:
         sort(arr.begin(), arr.end());
         
         vector<long long> prefix{0};
-        for(long long x: arr)
-            prefix.push_back(x + prefix.back());
         
         int ans = 0;
         for(int i=0; i<arr.size(); i++){
-            ans = max(ans, maxEqualElementsAfterMoves(arr, prefix, i, k));
+            prefix.push_back(prefix.back()+arr[i]);
+            ans = max(ans, maxEqualElementsAfterMoves(arr[i], prefix, i, k));
         }
         return ans;
     }

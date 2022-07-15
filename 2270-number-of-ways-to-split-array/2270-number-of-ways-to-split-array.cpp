@@ -1,13 +1,12 @@
 class Solution {
 public:
     int waysToSplitArray(vector<int>& nums) {
-        vector<long long> prefix{0};
-        for(int x: nums)
-            prefix.push_back(prefix.back()+x);
+        long long total = accumulate(nums.begin(), nums.end(), 0ll), prefix = 0;
         
         int count = 0;
-        for(int i=0, n = nums.size(); i<n-1; i++){
-            if(prefix[i+1] >= prefix[n] - prefix[i+1])
+        for(int i=0; i<nums.size()-1; i++){
+            prefix += nums[i];
+            if(prefix >= total - prefix)
                 count++;
         }
         return count;

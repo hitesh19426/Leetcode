@@ -12,20 +12,13 @@ public:
             }
         }
 
+        int ind = 0;
+        while(ind < sum.size()-1 && sum[ind] == 0)
+            ind++;
+        
         string ans = "";
-        for(int i=m+n-1; i>=0; i--){
-            ans += '0'+sum[i];
-            // int sum = (prod[i]+carry);
-            // ans += '0'+sum%10;
-            // carry = sum/10;
-        }
-        
-        while(!ans.empty() && ans.back() == '0')
-            ans.pop_back();
-        reverse(ans.begin(), ans.end());
-        
-        if(ans.empty())
-            return "0";
+        while(ind < sum.size())
+            ans += '0' + sum[ind++];
         return ans;
     }
 };

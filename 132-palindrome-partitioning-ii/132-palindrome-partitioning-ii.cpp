@@ -11,7 +11,6 @@ class Solution {
                 min_cut = min(min_cut, 1+helper(j-1, is_palindrome, dp));
             }
         }
-        // cout << ind << " " << min_cut << endl;
         if(is_palindrome[0][ind])
             min_cut = 0;
         
@@ -32,26 +31,29 @@ public:
             }
         }
         
-        // for(int i=0; i<n; i++){
-        //     for(int j=0; j<n; j++)
-        //         cout << is_palindrome[i][j] << " ";
-        //     cout << endl;
-        // }
+        vector<int> dp(n, INT_MAX);
+        dp[0] = 0;
+        for(int ind=0; ind<n; ind++){
+            if(is_palindrome[0][ind]){
+                dp[ind] = 0;
+            }
+            else{
+                for(int j=1; j<=ind; j++){
+                    if(is_palindrome[j][ind])
+                        dp[ind] = min(dp[ind], 1+dp[j-1]);
+                }
+            }
+        }
         
-        vector<int> dp(n, -1);
-        return helper(n-1, is_palindrome, dp);
-        
-        // for(int x: dp)
-        //     cout << x << " ";
-        // cout << endl;'
-        
-        
+        return dp[n-1];
+        // return helper(n-1, is_palindrome, dp);
     }
 };
+/*
+T(n) = n*n + n*n
+S(n) = n*n + n
+*/
 
 /*
-
 l...r => s[l] = s[r] && pal(l+1, r-1);
-
-
 */

@@ -1,21 +1,4 @@
 class Solution {
-    int helper(int ind, vector<vector<bool>>& is_palindrome, vector<int>& dp){
-        if(ind <= 0)
-            return 0;
-        if(dp[ind] != -1)
-            return dp[ind];
-        
-        int min_cut = INT_MAX;
-        for(int j=1; j<=ind; j++){
-            if(is_palindrome[j][ind]){
-                min_cut = min(min_cut, 1+helper(j-1, is_palindrome, dp));
-            }
-        }
-        if(is_palindrome[0][ind])
-            min_cut = 0;
-        
-        return dp[ind] = min_cut;
-    }
 public:
     int minCut(string s) {
         int n = s.size();
@@ -32,20 +15,20 @@ public:
         }
         
         vector<int> dp(n, INT_MAX);
-        dp[0] = 0;
-        for(int ind=0; ind<n; ind++){
-            if(is_palindrome[0][ind]){
+        dp[n-1] = 0;
+        for(int ind=n-2; ind>=0; ind--){
+            if(is_palindrome[ind][n-1]){
                 dp[ind] = 0;
             }
             else{
-                for(int j=1; j<=ind; j++){
-                    if(is_palindrome[j][ind])
-                        dp[ind] = min(dp[ind], 1+dp[j-1]);
+                for(int j=ind; j<n-1; j++){
+                    if(is_palindrome[ind][j])
+                        dp[ind] = min(dp[ind], 1+dp[j+1]);
                 }
             }
         }
         
-        return dp[n-1];
+        return dp[0];
         // return helper(n-1, is_palindrome, dp);
     }
 };

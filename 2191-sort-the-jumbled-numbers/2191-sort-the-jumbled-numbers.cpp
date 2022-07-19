@@ -1,20 +1,20 @@
 class Solution {
 public:
     vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
-        map<int, vector<int>> index;
+        vector<pair<int, int>> index;
         for(int i=0; i<nums.size(); i++){
             string s = to_string(nums[i]);
             int res = 0;
             for(char c: s)
                 res = 10*res + (mapping[c-'0']);
-            index[res].push_back(i);
+            index.push_back({res, i});
         }
         
+        sort(index.begin(), index.end());
+        
         vector<int> ans;
-        for(auto &pair: index){
-            for(auto &ind: pair.second){
-                ans.push_back(nums[ind]);
-            }
+        for(auto &[res, ind]: index){
+            ans.push_back(nums[ind]);
         }
         return ans;
     }

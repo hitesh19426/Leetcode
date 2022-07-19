@@ -1,15 +1,9 @@
 class Solution {
-    bool check(vector<pair<bool, int>>& prefix, vector<pair<bool, int>> &suffix, int mid){
-        int n = prefix.size()-1;
-        for(int i=0, j=mid-1; j<n; i++, j++){
-            if(prefix[i].first && suffix[j+1].first && prefix[i].second <= suffix[j+1].second)
-                return true;
-        }
-        return false;
-    }
-    
 public:
     int findLengthOfShortestSubarray(vector<int>& arr) {
+        if(is_sorted(arr.begin(), arr.end()))
+            return 0;
+        
         int n = arr.size();
         vector<pair<bool, int>> prefix(arr.size()+1);
         prefix[0] = {true, INT_MIN};
@@ -27,13 +21,16 @@ public:
             suffix[i] = {suffix_is_sorted, suffix_min};
         }
         
-        int low = 0, high = arr.size()-1, ans = -1;
-        while(low <= high){
-            int mid = low + (high-low)/2;
-            if(check(prefix, suffix, mid))
-                ans = mid, high = mid-1;
-            else
-                low = mid+1;
+        int start = 0, end = 0, ans = INT_MAX;
+        while(end < arr.size()){
+            
+            while(suffix[end+1].first && prefix[start].first && prefix[start].second <= suffix[end+1].second && start <= end){
+                ans = min(ans, end-start+1);
+                start++;
+            }
+            
+            end++;
+                
         }
         return ans;
     }

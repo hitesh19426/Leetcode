@@ -10,7 +10,8 @@ public:
             }
         }
         
-        sort(subs.begin(), subs.end());        
+        nth_element(subs.begin(), subs.begin()+right-1, subs.end());
+        nth_element(subs.begin(), subs.begin()+left-1, subs.begin()+right-1);
         long long ans = 0, mod = 1e9+7;
         for(int i=left-1; i<right; i++){
             ans += subs[i];

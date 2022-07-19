@@ -1,19 +1,8 @@
-struct Prefix_DS{
-    int maxi, issorted;
-    Prefix_DS(int maxi, int issorted) : maxi(maxi), issorted(issorted) {}
-};
-
-struct Suffix_DS{
-    int mini, issorted;
-    Suffix_DS() : mini(INT_MAX), issorted(true) {}
-    Suffix_DS(int mini, int issorted) : mini(mini), issorted(issorted) {}
-};
-
 class Solution {
-    bool check(vector<Prefix_DS>& prefix, vector<Suffix_DS> &suffix, int mid){
+    bool check(vector<pair<bool, int>>& prefix, vector<pair<bool, int>> &suffix, int mid){
         int n = prefix.size()-1;
         for(int i=0, j=mid-1; j<n; i++, j++){
-            if(prefix[i].issorted && suffix[j+1].issorted && prefix[i].maxi <= suffix[j+1].mini)
+            if(prefix[i].first && suffix[j+1].first && prefix[i].second <= suffix[j+1].second)
                 return true;
         }
         return false;
@@ -21,17 +10,21 @@ class Solution {
     
 public:
     int findLengthOfShortestSubarray(vector<int>& arr) {
-        vector<Prefix_DS> prefix;
-        prefix.push_back({INT_MIN, true});
+        int n = arr.size();
+        vector<pair<bool, int>> prefix(arr.size()+1);
+        prefix[0] = {true, INT_MIN};
         for(int i=0; i<arr.size(); i++){
-            bool prefix_is_sorted = (prefix.back().issorted && arr[i] >= prefix.back().maxi);
-            prefix.push_back({max(prefix.back().maxi, arr[i]), prefix_is_sorted});
+            bool prefix_is_sorted = (prefix[i].first && arr[i] >= prefix[i].second);
+            int prefix_max = max(prefix[i].second, arr[i]);
+            prefix[i+1] = {prefix_is_sorted, prefix_max};
         }
         
-        vector<Suffix_DS> suffix(arr.size()+1);
+        vector<pair<bool, int>> suffix(arr.size()+1);
+        suffix[n] = {true, INT_MAX};
         for(int i=arr.size()-1; i>=0; i--){
-            bool suffix_is_sorted = (suffix[i+1].issorted && suffix[i+1].mini >= arr[i]);
-            suffix[i] = {min(suffix[i+1].mini, arr[i]), suffix_is_sorted};
+            bool suffix_is_sorted = (suffix[i+1].first && suffix[i+1].second >= arr[i]);
+            int suffix_min = min(suffix[i+1].second, arr[i]);
+            suffix[i] = {suffix_is_sorted, suffix_min};
         }
         
         int low = 0, high = arr.size()-1, ans = -1;

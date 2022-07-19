@@ -29,7 +29,7 @@ public:
         long long ans = 0;
         for(int i=0; i<arr.size(); i++){
             if(2*arr[i] > target)
-                continue;
+                break;
             int count = binary_search(arr, i, target);
             ans = (ans + pow(2, count))%mod;
         }

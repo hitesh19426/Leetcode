@@ -1,17 +1,17 @@
 class Solution {
 public:
     int findMin(vector<int>& arr) {
-        int low = 0, high = arr.size()-1, ans = arr[0];
-        while(low <= high){
+        int low = 0, high = arr.size()-1, ans = INT_MAX;
+        while(low < high){
             int mid = (low+high)/2;
-            if(arr[low] == arr[mid])
-                ans = min(ans, arr[low]), low++;
-            else if(arr[low] < arr[mid])
-                ans = min(ans, arr[low]), low = mid+1;
+            if(arr[mid] == arr[high])
+                high--;
+            else if(arr[mid] < arr[high])
+                high = mid;
             else
-                ans = min(ans, arr[mid]), high = mid-1;
+                low = mid+1;
         }
         
-        return ans;
+        return arr[low];
     }
 };

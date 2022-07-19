@@ -1,26 +1,17 @@
 class Solution {
-    int mod = 1e9+7;
-    int pow(long long x, int n){
-        if(n < 0)
-            return 0;
-        long long res = 1;
-        while(n){
-            if(n&1)
-                res = (res*x)%mod;
-            x = (x*x)%mod;
-            n /= 2;
-        }
-        return res;
-    }
 public:
     int numSubseq(vector<int>& arr, int target) {
+        long long mod = 1e9+7, ans = 0;
+        vector<long long> pow(arr.size()+1, 1);
+        for(int i=1; i<=arr.size(); i++)
+            pow[i] = (pow[i-1]*2)%mod;
+        
         sort(arr.begin(), arr.end());
         
-        long long ans = 0;
         for(int low=0, high = arr.size()-1; low<=high; low++){
             while(high >= low && arr[high] + arr[low] > target)
                 high--;
-            ans = (ans + pow(2, high - low))%mod;
+            ans = (ans + (high < low ? 0 : pow[high - low]))%mod;
         }
         
         return ans;

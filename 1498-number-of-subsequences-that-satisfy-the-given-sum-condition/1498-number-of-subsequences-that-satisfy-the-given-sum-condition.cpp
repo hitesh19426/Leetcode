@@ -1,17 +1,5 @@
 class Solution {
     int mod = 1e9+7;
-    int binary_search(vector<int>& arr, int ind, int target){
-        int low = ind+1, high = arr.size()-1, ans = ind;
-        while(low <= high){
-            int mid = (low+high)/2;
-            if(arr[ind] + arr[mid] <= target)
-                ans = mid, low=mid+1;
-            else
-                high = mid-1;
-        }
-        return ans - ind;
-    }
-    
     int pow(long long x, int n){
         long long res = 1;
         while(n){
@@ -27,11 +15,12 @@ public:
         sort(arr.begin(), arr.end());
         
         long long ans = 0;
-        for(int i=0; i<arr.size(); i++){
-            if(2*arr[i] > target)
+        for(int low=0, high = arr.size()-1; low<=high; low++){
+            while(high >= low && arr[high] + arr[low] > target)
+                high--;
+            if(high < low)
                 break;
-            int count = binary_search(arr, i, target);
-            ans = (ans + pow(2, count))%mod;
+            ans = (ans + pow(2, high - low))%mod;
         }
         
         return ans;

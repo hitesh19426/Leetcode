@@ -2,7 +2,8 @@ class Solution {
 public:
     int numSubseq(vector<int>& arr, int target) {
         long long mod = 1e9+7, ans = 0;
-        vector<long long> pow(arr.size()+1, 1);
+        long long pow[arr.size()+1];
+        pow[0] = 1;
         for(int i=1; i<=arr.size(); i++)
             pow[i] = (pow[i-1]*2)%mod;
         

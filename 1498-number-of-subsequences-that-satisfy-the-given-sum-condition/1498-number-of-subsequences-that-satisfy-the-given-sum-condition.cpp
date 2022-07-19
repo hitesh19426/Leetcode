@@ -9,10 +9,15 @@ public:
         
         sort(arr.begin(), arr.end());
         
-        for(int low=0, high = arr.size()-1; low<=high; low++){
-            while(high >= low && arr[high] + arr[low] > target)
+        int low = 0, high = arr.size()-1;
+        while(low <= high){
+            if(arr[low] + arr[high] <= target){
+                ans = (ans + (high < low ? 0 : pow[high - low]))%mod;
+                low++;
+            }
+            else{
                 high--;
-            ans = (ans + (high < low ? 0 : pow[high - low]))%mod;
+            }
         }
         
         return ans;

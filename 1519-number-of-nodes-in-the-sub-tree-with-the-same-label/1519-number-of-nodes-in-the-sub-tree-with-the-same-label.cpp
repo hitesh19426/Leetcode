@@ -1,15 +1,14 @@
 class Solution {
-    vector<int> dfs(int src, int parent, vector<vector<int>>& graph, vector<int>& ans, string& labels){
-        vector<int> count(26, 0);
+    void dfs(int src, int parent, vector<vector<int>>& graph, vector<int>& ans, string& labels, int count[26]){
         for(int v: graph[src]){
             if(v != parent){
-                auto sub = dfs(v, src, graph, ans, labels);
+                int sub[26] = {};
+                dfs(v, src, graph, ans, labels, sub);
                 for(int i=0; i<26; i++)
                     count[i] += sub[i];
             }
         }
         ans[src] = ++count[labels[src]-'a'];
-        return count;
     }
 public:
     vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
@@ -20,7 +19,8 @@ public:
         }
         
         vector<int> ans(n);
-        dfs(0, -1, graph, ans, labels);
+        int count[26] = {};
+        dfs(0, -1, graph, ans, labels, count);
         return ans;
     }
 };

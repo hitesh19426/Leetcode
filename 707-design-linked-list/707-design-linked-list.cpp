@@ -19,8 +19,6 @@ public:
         else
             head = new ListNode(val, head);
         size++;
-        // printList(head);
-        // cout << head->val << " " << tail->val << " " << size << endl;
     }
     
     void addAtTail(int val) {
@@ -29,8 +27,6 @@ public:
         else
             tail->next = new ListNode(val), tail = tail->next;
         size++;
-        // printList(head);
-        // cout << head->val << " " << tail->val << " " << size << endl;
     }
     
     void addAtIndex(int index, int val) {
@@ -48,18 +44,8 @@ public:
                 prev = ptr, ptr = ptr->next;
             prev->next = new ListNode(val, ptr);
             size++;
-            // printList(head);
-            // cout << head->val << " " << tail->val << " " << size << endl;
         }
         
-    }
-    
-    void printList(ListNode* head){
-        while(head){
-            cout << head->val << " ";
-            head = head->next;
-        }
-        cout << endl;
     }
     
     void deleteAtIndex(int index) {
@@ -82,8 +68,6 @@ public:
         }
         if(--size == 0)
             head = tail = NULL;
-        // printList(head);
-        // cout << head->val << " " << tail->val << " " << size << endl;
     }
 };
 

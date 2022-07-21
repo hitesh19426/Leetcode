@@ -1,7 +1,6 @@
 class Solution {
     int replace_and_sum(vector<int>& arr, vector<int>& prefix, int mid){
         int ind = upper_bound(arr.begin(), arr.end(), mid) - arr.begin();
-        // cout << "mid, ind = " << mid << " "  << ind << endl;
         if(ind == arr.size())
             return prefix.back();
         return prefix[ind] + (arr.size()-ind)*mid;
@@ -34,3 +33,7 @@ public:
         
     }
 };
+/*
+T(N) = O(n*logn + log(maxval)*log(n))
+S(N) = O(n + logn)
+*/

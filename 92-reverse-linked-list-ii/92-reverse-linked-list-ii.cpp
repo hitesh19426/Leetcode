@@ -29,25 +29,22 @@ public:
             count++;
         }
         
-        ListNode* rightptr = leftptr;
-        while(count < right){
-            rightptr = rightptr->next;
+        if(prev)
+            prev->next = NULL;
+        
+        ListNode* rightptr = leftptr, *next = NULL, *prevloop = NULL;
+        while(count <= right){
+            next = rightptr->next;
+            rightptr->next = prevloop;
+            prevloop = rightptr;
+            rightptr = next;
             count++;
         }
         
+        leftptr->next = rightptr;
         if(prev)
-            prev->next = NULL;
-        ListNode* third = rightptr->next;
-        rightptr->next = NULL;
+            prev->next = prevloop;
         
-        auto [revhead, revtail] = reverse(leftptr);
-        
-        if(prev)
-            prev->next = revhead;
-        revtail->next = third;
-        
-        if(prev)
-            return head;
-        return revhead;
+        return (prev ? head : prevloop);
     }
 };

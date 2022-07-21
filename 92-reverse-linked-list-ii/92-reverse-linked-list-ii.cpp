@@ -9,16 +9,6 @@
  * };
  */
 class Solution {
-    pair<ListNode*, ListNode*> reverse(ListNode* head){
-        ListNode* prev = NULL, *curr = head;
-        while(curr){
-            ListNode* next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
-        }
-        return {prev, head};
-    }
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         ListNode* leftptr = head, *prev = NULL;
@@ -48,3 +38,7 @@ public:
         return (prev ? head : prevloop);
     }
 };
+/*
+T(N) = O(N), one pass
+S(N) = O(1)
+*/

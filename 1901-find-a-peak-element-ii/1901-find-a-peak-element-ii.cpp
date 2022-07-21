@@ -1,32 +1,22 @@
 class Solution {
 public:
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
-        int rows = mat.size(), cols = mat[0].size(), lowCol = 0, highCol = cols-1;
-        while(lowCol <= highCol){    
-            int midCol = (lowCol+highCol)/2, maxRowIndex = 0;
-            for(int i=0; i<rows; i++){
-                if(mat[i][midCol] > mat[maxRowIndex][midCol])
-                    maxRowIndex = i;
+        int m = mat.size(), n = mat[0].size();
+        int low = 0, high = m-1, ans = -1, colmax = 0, mid = 0;
+        while(low < high){
+            mid = (high+low)/2;        
+            
+            for(int i=0; i<n; i++){
+                if(mat[mid][i] > mat[mid][colmax])
+                    colmax = i;
             }
             
-            bool isLeftSmaller = (midCol==0 || mat[maxRowIndex][midCol-1] < mat[maxRowIndex][midCol]);
-            bool isRightSmaller = (midCol==cols-1 || mat[maxRowIndex][midCol+1] < mat[maxRowIndex][midCol]);
-
-            if(isLeftSmaller && isRightSmaller)
-                return {maxRowIndex, midCol};
-            if(isRightSmaller)
-                highCol = midCol;
-            else
-                lowCol = midCol+1;
+            if(mat[mid][colmax] > mat[mid+1][colmax])
+                high = mid;
+            else if(mat[mid][colmax] < mat[mid+1][colmax])
+                low = mid+1;
         }
         
-        return {-1, -1};
+        return {low, colmax};
     }
 };
-
-/*
-
-    7 2 3 1 2
-    6 5 4 2 1
-
-*/

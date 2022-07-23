@@ -1,8 +1,7 @@
 class DSU{
-    unordered_map<int, int> sizes;
-    vector<int> parent, size;
+    vector<int> parent, size, sizes;
 public:
-	DSU(int n) : parent(n), size(n){}
+	DSU(int n) : parent(n), size(n), sizes(n+1) {}
 
 	void make_set(int v){
 		parent[v] = v;
@@ -23,10 +22,8 @@ public:
 			if(size[a] < size[b])
 				swap(a, b);
 			
-            if(--sizes[size[a]] == 0)
-                sizes.erase(size[a]);
-            if(--sizes[size[b]] == 0)
-                sizes.erase(size[b]);
+            sizes[size[a]]--;
+            sizes[size[b]]--;
             
             parent[b] = a;
             size[a] += size[b];
@@ -35,7 +32,7 @@ public:
 	}
     
     bool find_size(int m){
-        return sizes.find(m) != sizes.end();
+        return sizes[m];
     }
 };
 

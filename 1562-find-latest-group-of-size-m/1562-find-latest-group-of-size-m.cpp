@@ -1,15 +1,13 @@
 class DSU{
-    multiset<int> sizes;
+    unordered_map<int, int> sizes;
     vector<int> parent, size;
 public:
-	int count = 0;
-	DSU(int n) : parent(n), size(n), count(0) {}
+	DSU(int n) : parent(n), size(n){}
 
 	void make_set(int v){
 		parent[v] = v;
 		size[v] = 1;
-		count++;
-        sizes.insert(1);
+        sizes[1]++;
 	}
 
 	int find_set(int v){
@@ -18,24 +16,22 @@ public:
 		return parent[v] = find_set(parent[v]);
 	}
 
-	bool union_set(int a, int b){
+	void union_set(int a, int b){
 		a = find_set(a);
 		b = find_set(b);
 		if(a != b){
 			if(size[a] < size[b])
 				swap(a, b);
 			
-            sizes.erase(sizes.find(size[a]));
-            sizes.erase(sizes.find(size[b]));
+            if(--sizes[size[a]] == 0)
+                sizes.erase(size[a]);
+            if(--sizes[size[b]] == 0)
+                sizes.erase(size[b]);
             
             parent[b] = a;
             size[a] += size[b];
-			count--;
-            
-            sizes.insert(size[a]);
-			return true;
+            sizes[size[a]]++;
 		}
-		return false;
 	}
     
     bool find_size(int m){

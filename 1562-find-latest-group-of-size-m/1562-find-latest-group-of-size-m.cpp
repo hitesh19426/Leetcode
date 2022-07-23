@@ -1,8 +1,5 @@
-class DSU{
+class Solution {
     vector<int> parent, size, sizes;
-public:
-	DSU(int n) : parent(n), size(n), sizes(n+1) {}
-
 	void make_set(int v){
 		parent[v] = v;
 		size[v] = 1;
@@ -34,25 +31,23 @@ public:
     bool find_size(int m){
         return sizes[m];
     }
-};
-
-class Solution {
 public:
     int findLatestStep(vector<int>& arr, int m) {
-        DSU uf(arr.size());
-        vector<bool> seen(arr.size(), false);
+        int n = arr.size();
+        parent.assign(n, -1);
+        size.assign(n, 0);
+        sizes.assign(n+1, 0);
         
         int i = 0, ans = -1;
         for(int x: arr){
             x--;
-            uf.make_set(x);
-            seen[x] = true;
+            make_set(x);
             
-            if(x-1>=0 && seen[x-1])
-                uf.union_set(x-1, x);
-            if(x+1<arr.size() && seen[x+1])
-                uf.union_set(x+1, x);
-            if(uf.find_size(m))
+            if(x-1>=0 && parent[x-1] != -1)
+                union_set(x-1, x);
+            if(x+1<arr.size() && parent[x+1] != -1)
+                union_set(x+1, x);
+            if(find_size(m))
                 ans = max(ans, i+1);
             i++;
         }
@@ -61,6 +56,6 @@ public:
     }
 };
 /*
-TC(N, M) = O(N*log(N))
+TC(N, M) = O(N*alpha(N))
 SC(N, M) = O(N)
 */

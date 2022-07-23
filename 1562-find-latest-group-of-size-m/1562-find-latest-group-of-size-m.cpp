@@ -1,14 +1,13 @@
 class Solution {
     int target, count = 0;
-    vector<int> size, left, right;
-	void make_set(int v){
+	void make_set(int v, int left[], int right[], int size[]){
         left[v] = right[v] = v;
 		size[v] = 1;
         if(target == 1)
             count++;
 	}
     
-	void union_set(int a, int b){
+	void union_set(int a, int b, int left[], int right[], int size[]){
         left[right[b]] = left[a];
         right[left[a]] = right[b];
         if(target == size[a])
@@ -27,19 +26,19 @@ public:
         int n = arr.size();
         target = m;
         vector<bool> seen(n, false);
-        left.resize(n); right.resize(n); size.resize(n);
+        int left[n], right[n], size[n];
         
         int i = 0, ans = -1;
         for(int x: arr){
             x--;
             seen[x] = true;
-            make_set(x);
+            make_set(x, left, right, size);
             
             
             if(x-1>=0 && seen[x-1])
-                union_set(x-1, x);
+                union_set(x-1, x, left, right, size);
             if(x+1<arr.size() && seen[x+1])
-                union_set(x, x+1);
+                union_set(x, x+1, left, right, size);
             if(count)
                 ans = max(ans, i+1);
             i++;

@@ -1,29 +1,14 @@
 class Solution {
     int target, count = 0;
-    vector<int> parent, size, left, right;
+    vector<int> size, left, right;
 	void make_set(int v){
-		// parent[v] = v;
         left[v] = right[v] = v;
 		size[v] = 1;
         if(target == 1)
             count++;
 	}
-
-	// int find_set(int v){
-	// 	if(v == parent[v])
-	// 		return v;
-	// 	return parent[v] = find_set(parent[v]);
-	// }
-
+    
 	void union_set(int a, int b){
-		// a = find_set(a);
-		// b = find_set(b);
-        // left[b] = left[a];
-        // right[a] = b;
-        
-        // if(size[a] < size[b])
-        //     swap(a, b);
-        
         left[right[b]] = left[a];
         right[left[a]] = right[b];
         if(target == size[a])
@@ -31,25 +16,18 @@ class Solution {
         if(target == size[b])
             count--;
 
-        // parent[b] = a;
         int total = size[a] + size[b];
         size[left[a]] = size[right[b]] = total;
-        // size[left[a]] += size[b];
 
         if(target == total)
             count++;
 	}
-    
-    bool find_size(){
-        return count;
-    }
 public:
     int findLatestStep(vector<int>& arr, int m) {
         int n = arr.size();
         target = m;
         vector<bool> seen(n, false);
-        left.assign(n, -1); right.assign(n, -1);
-        size.assign(n, 0);
+        left.resize(n); right.resize(n); size.resize(n);
         
         int i = 0, ans = -1;
         for(int x: arr){

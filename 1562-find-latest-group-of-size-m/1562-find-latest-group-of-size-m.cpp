@@ -1,9 +1,11 @@
 class Solution {
-    vector<int> parent, size, sizes;
+    int target, count = 0;
+    vector<int> parent, size;
 	void make_set(int v){
 		parent[v] = v;
 		size[v] = 1;
-        sizes[1]++;
+        if(target == 1)
+            count++;
 	}
 
 	int find_set(int v){
@@ -19,24 +21,28 @@ class Solution {
 			if(size[a] < size[b])
 				swap(a, b);
 			
-            sizes[size[a]]--;
-            sizes[size[b]]--;
+            if(target == size[a])
+                count--;
+            if(target == size[b])
+                count--;
             
             parent[b] = a;
             size[a] += size[b];
-            sizes[size[a]]++;
+            
+            if(target == size[a])
+                count++;
 		}
 	}
     
     bool find_size(int m){
-        return sizes[m];
+        return count;
     }
 public:
     int findLatestStep(vector<int>& arr, int m) {
         int n = arr.size();
+        target = m;
         parent.assign(n, -1);
         size.assign(n, 0);
-        sizes.assign(n+1, 0);
         
         int i = 0, ans = -1;
         for(int x: arr){

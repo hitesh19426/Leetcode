@@ -9,8 +9,7 @@ public:
             if(rains[i] == 0){
                 zeroes.insert(i);
             }
-            else if(seen.find(rains[i]) == seen.end()){
-                seen.insert(rains[i]);
+            else if(lastfull.find(rains[i]) == lastfull.end()){
                 lastfull[rains[i]] = i;
             }
             else{

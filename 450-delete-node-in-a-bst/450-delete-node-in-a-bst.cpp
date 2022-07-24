@@ -12,22 +12,14 @@
 class Solution {
     TreeNode* deleteNode(TreeNode* &root){
         // cout << root->val << endl;
-        auto right = root->right, node = root->right;
+        auto right = root->right, node = (right ? right : root->left);
         if(right){
             while(right->left)
                 right = right->left;
-            // cout << right->val << endl;
             right->left = root->left;
-            delete root;
-            return node;
         }
-        
-        node = root->left;
         delete root;
         return node;
-        // cout << node->val << endl;
-        // delete root;
-        // return node;
     }
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {

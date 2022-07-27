@@ -1,23 +1,23 @@
 class Solution {
+    vector<int> dp;
+    int helper(int ind, vector<int>& prices){
+        if(ind >= prices.size())
+            return 0;
+        if(dp[ind] != -1)
+            return dp[ind];
+        
+        int ans = helper(ind+1, prices);
+        for(int i=ind+1; i<prices.size(); i++)
+            ans = max(ans, prices[i] - prices[ind] + helper(i+2, prices));
+        return dp[ind] = ans;
+        
+        // if(last == -1)
+        //     return dp[ind][last+1] = max(helper(ind+1, ind, prices), helper(ind+1, -1, prices));
+        // return dp[ind][last+1] = max(prices[ind]-prices[last] + helper(ind+2, -1, prices), helper(ind+1, last, prices));
+    }
 public:
     int maxProfit(vector<int>& prices) {
-        int n = prices.size();
-        // vector<int> seld(n+1), held(n+1), reset(n+1);
-        
-        // reset[0] = 0, seld[0] = INT_MIN, held[0] = INT_MIN;
-        int reset_prev = 0, seld_prev = INT_MIN, held_prev = INT_MIN;
-        for(int i=0; i<n; i++){
-            // reset[i] = max(reset[i-1], seld[i-1]);
-            // held[i] = max(held[i-1], reset[i-1] - prices[i-1]);
-            // seld[i] = held[i-1] + prices[i-1];
-            int reset = max(reset_prev, seld_prev);
-            int held = max(held_prev, reset_prev - prices[i]);
-            int seld = held_prev + prices[i];
-            
-            reset_prev = reset, held_prev = held, seld_prev = seld;
-        }
-        
-        return max({reset_prev, seld_prev, held_prev});
-        
+        dp.assign(prices.size()+1, -1);
+        return helper(0, prices);
     }
 };

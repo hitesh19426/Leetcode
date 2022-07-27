@@ -6,9 +6,9 @@ public:
     bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
         vector<vector<int>> points{p1, p2, p3, p4};
         
-        for(auto pt1: points){
+        for(auto &pt1: points){
             map<int, int> dist;
-            for(auto pt2: points){
+            for(auto &pt2: points){
                 if(pt1 != pt2){
                     dist[distance(pt1, pt2)]++;
                 }

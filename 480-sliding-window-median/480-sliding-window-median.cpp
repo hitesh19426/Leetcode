@@ -27,17 +27,13 @@ public:
         vector<double> ans;
         for(int i=0; i+k-1<n; i++){
             if(i!=0){
-                auto itr = maxset.find(arr[i-1]);
-                if(itr == maxset.end()){
+                if(maxset.find(arr[i-1]) != maxset.end())
+                    maxset.erase(maxset.find(arr[i-1]));
+                else
                     minset.erase(minset.find(arr[i-1]));
-                }
-                else{
-                    maxset.erase(itr);
-                    if(!minset.empty()){
-                        int prev = *minset.rbegin();
-                        maxset.insert(prev);
-                        minset.erase(minset.find(prev));
-                    }
+                if(maxset.size() < minset.size()){
+                    maxset.insert(*minset.rbegin());
+                    minset.erase(minset.find(*minset.rbegin()));
                 }
 
                 insert(minset, maxset, arr[i+k-1]);

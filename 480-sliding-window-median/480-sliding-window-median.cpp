@@ -20,18 +20,6 @@ public:
         else
             maxs = mins = k/2;
 
-        // for(int i=0; i<maxs; i++)
-        //     maxset.insert(arr[i]);
-        // for(int i=maxs; i<k; i++){
-        //     if(arr[i] <= *maxset.begin()){
-        //         minset.insert(arr[i]);
-        //     }
-        //     else{
-        //         maxset.insert(arr[i]);
-        //         minset.insert(*maxset.begin());
-        //         maxset.erase(maxset.begin());
-        //     }
-        // }
         for(int i=0; i<k; i++){
             insert(minset, maxset, arr[i]);
         }
@@ -52,18 +40,7 @@ public:
                     }
                 }
 
-                if((int)maxset.size() < maxs){
-                    maxset.insert(arr[i+k-1]);
-                }
-                else if(arr[i+k-1] <= *maxset.begin()){
-                    minset.insert(arr[i+k-1]);
-                }
-                else{
-                    maxset.insert(arr[i+k-1]);
-                    minset.insert(*maxset.begin());
-                    maxset.erase(maxset.begin());
-                }
-
+                insert(minset, maxset, arr[i+k-1]);
             }
 
             double median = (k&1 ? *maxset.begin() : ((double)*minset.rbegin() + *maxset.begin())/2.0 );

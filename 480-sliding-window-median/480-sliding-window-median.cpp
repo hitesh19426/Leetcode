@@ -1,4 +1,16 @@
 class Solution {
+    void insert(multiset<int>& minset, multiset<int>& maxset, int x){
+        if(minset.size() == maxset.size()){
+            minset.insert(x);
+            maxset.insert(*minset.rbegin());
+            minset.erase(minset.find(*minset.rbegin()));
+        }
+        else{
+            maxset.insert(x);
+            minset.insert(*maxset.begin());
+            maxset.erase(maxset.begin());
+        }
+    }
 public:
     vector<double> medianSlidingWindow(vector<int>& arr, int k) {
         int maxs=0, mins=0, n = arr.size();
@@ -8,17 +20,20 @@ public:
         else
             maxs = mins = k/2;
 
-        for(int i=0; i<maxs; i++)
-            maxset.insert(arr[i]);
-        for(int i=maxs; i<k; i++){
-            if(arr[i] <= *maxset.begin()){
-                minset.insert(arr[i]);
-            }
-            else{
-                maxset.insert(arr[i]);
-                minset.insert(*maxset.begin());
-                maxset.erase(maxset.begin());
-            }
+        // for(int i=0; i<maxs; i++)
+        //     maxset.insert(arr[i]);
+        // for(int i=maxs; i<k; i++){
+        //     if(arr[i] <= *maxset.begin()){
+        //         minset.insert(arr[i]);
+        //     }
+        //     else{
+        //         maxset.insert(arr[i]);
+        //         minset.insert(*maxset.begin());
+        //         maxset.erase(maxset.begin());
+        //     }
+        // }
+        for(int i=0; i<k; i++){
+            insert(minset, maxset, arr[i]);
         }
  
         vector<double> ans;

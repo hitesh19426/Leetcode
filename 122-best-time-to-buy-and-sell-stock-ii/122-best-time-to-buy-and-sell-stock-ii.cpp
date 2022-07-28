@@ -7,7 +7,7 @@ public:
         
         for(int i=1; i<=n; i++){
             reset[i] = max(reset[i-1], held[i-1] + prices[i-1]);
-            held[i] = max({held[i-1], reset[i-1] - prices[i-1], reset[i] - prices[i-1]});
+            held[i] = max({held[i-1], reset[i-1] - prices[i-1]});
         }
         return max(held[n], reset[n]);
     }

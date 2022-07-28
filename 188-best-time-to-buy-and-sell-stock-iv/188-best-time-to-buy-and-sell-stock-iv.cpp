@@ -2,6 +2,7 @@ class Solution {
 public:
     int maxProfit(int k, vector<int>& prices) {
         int n = prices.size(), start = 0;
+        k = min(k, n+1);
         int held[n+1][k+1], sold[n+1][k+1];
         for(int i=0; i<=n; i++)
             held[i][0] = INT_MIN, sold[i][0] = 0;

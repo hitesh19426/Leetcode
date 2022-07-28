@@ -20,15 +20,20 @@ public:
             }
         }
         
-        // sort features in non-increasing order based on count -> stable sort automatically handles indexing
-        stable_sort(features.begin(), features.end(), [&count](const auto &a, const auto &b) -> bool {
-            return count[a] > count[b];
-        });
+        vector<vector<int>> buckets(responses.size()+1);
+        for(int i=0; i<features.size(); i++)
+            buckets[count[features[i]]].push_back(i);
         
-        return features;
+        vector<string> ans;
+        for(int i=buckets.size()-1; i>=0; i--){
+            for(int& ind: buckets[i])
+                ans.push_back(features[ind]);
+        }
+        
+        return ans;
     }
 };
 /*
-TC(F, R, MFL, MRL) = F*MFL + R*(MRL) + F*logF*(MFL)
+TC(F, R, MFL, MRL) = F*MFL + R*(MRL) + F*R
 SC(F, R, MFL, MRL) = F*MFL + R*(MRL)
 */

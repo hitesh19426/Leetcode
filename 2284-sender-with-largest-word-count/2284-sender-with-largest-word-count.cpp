@@ -24,3 +24,7 @@ public:
         return maxWordUser;
     }
 };
+/*
+TC(N, M, S) = N*(N*S + M)
+SC(N, M, S) = N*S
+*/

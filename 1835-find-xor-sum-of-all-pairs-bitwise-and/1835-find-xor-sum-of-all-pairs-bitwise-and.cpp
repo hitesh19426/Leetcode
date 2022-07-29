@@ -1,7 +1,7 @@
 class Solution {
     void fillCount(vector<int>& arr, int count[32]){
-        for(int i=0; i<31; i++){
-            for(int& x: arr){
+        for(int& x: arr){
+            for(int i=0; i<31; i++){
                 if(x&(1<<i))
                     count[i]++;
             }
@@ -21,3 +21,7 @@ public:
         return ans;
     }
 };
+/*
+T(N) = O(32*N)
+S(N) = O(32)
+*/

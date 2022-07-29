@@ -7,17 +7,29 @@ class Solution {
     }
 public:
     int numSplits(string s) {
-        int count[26] = {};
-        for(int i=0; i<s.size(); i++)
-            count[s[i]-'a']++;
+        int n = s.size();
+        vector<int> suffix(n);
         
-        int prefix[26] = {}, ans = 0;
-        for(int i=0; i<s.size()-1; i++){
-            count[s[i]-'a']--;
-            prefix[s[i]-'a']++;
-            if(countDistinct(count) == countDistinct(prefix))
+        vector<int> count(26, 0);
+        for(int i=s.size()-1, unique = 0; i>=0; i--){
+            if(count[s[i]-'a']++ == 0)
+                suffix[i] = ++unique;
+            else
+                suffix[i] = unique;
+        }
+        
+        int ans = 0;
+        fill(count.begin(), count.end(), 0);
+        for(int i=0, unique = 0; i<s.size()-1; i++){
+            if(count[s[i]-'a']++ == 0)
+                ++unique;
+            if(unique == suffix[i+1])
                 ans++;
         }
         return ans;
     }
 };
+/*
+T(N) = O(26*N)
+S(N) = O(N)
+*/

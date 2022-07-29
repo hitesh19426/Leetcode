@@ -1,7 +1,7 @@
 class Solution {
-    void fillCount(vector<int>& arr, vector<int>& count){
-        for(int& x: arr){
-            for(int i=0; i<31; i++){
+    void fillCount(vector<int>& arr, int count[32]){
+        for(int i=0; i<31; i++){
+            for(int& x: arr){
                 if(x&(1<<i))
                     count[i]++;
             }
@@ -9,9 +9,7 @@ class Solution {
     }
 public:
     int getXORSum(vector<int>& arr1, vector<int>& arr2) {
-        long long m = arr1.size(), n = arr2.size();
-        vector<int> count1(32, 0), count2(32, 0);
-        
+        int count1[32] = {}, count2[32] = {};
         fillCount(arr1, count1);
         fillCount(arr2, count2);
         

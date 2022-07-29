@@ -2,8 +2,7 @@ class Solution {
 public:
     long long minimumDifference(vector<int>& arr) {
         int n = arr.size(), k = n/3;
-        multiset<int> left(arr.begin(), arr.begin()+k);
-
+        priority_queue<int> left(arr.begin(), arr.begin()+k);
         long long left_sum = accumulate(arr.begin(), arr.begin()+k, 0ll);
 
         multiset<int> higher(arr.begin()+k, arr.begin()+2*k), lower;
@@ -34,11 +33,9 @@ public:
                 lower.erase(lower.find(*lower.rbegin()));
             }
 
-            left.insert(arr[i]);
-            left_sum += arr[i];
-
-            left_sum -= *left.rbegin();
-            left.erase(left.find(*left.rbegin()));
+            left.push(arr[i]);
+            left_sum += arr[i] -  left.top();
+            left.pop();
 
             ans = min(ans, left_sum - high_sum);
         }

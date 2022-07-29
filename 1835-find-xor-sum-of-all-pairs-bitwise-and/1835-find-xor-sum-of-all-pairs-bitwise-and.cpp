@@ -1,9 +1,11 @@
 class Solution {
 public:
     int getXORSum(vector<int>& arr1, vector<int>& arr2) {
-        int xora = accumulate(arr1.begin(), arr1.end(), 0, [](auto &a, auto &b) -> int {return a^b;});
-        int xorb = accumulate(arr2.begin(), arr2.end(), 0, [](auto &a, auto &b) -> int {return a^b;});
-        
+        int xora = 0, xorb = 0;
+        for(int &x: arr1)
+            xora ^= x;
+        for(int &x: arr2)
+            xorb ^= x;
         return xora&xorb;
     }
 };

@@ -38,12 +38,12 @@ public:
             }
             auto node = stack.top();
             stack.pop();
+            root = node->right;
             
+            // node process
             tail->right = node;
             node->left = tail;
             tail = node;
-            
-            root = node->right;
         }
         
         auto head = dummy->right;
@@ -54,3 +54,7 @@ public:
         return head;
     }
 };
+/*
+T(N) = O(H)
+S(N) = O(H)
+*/

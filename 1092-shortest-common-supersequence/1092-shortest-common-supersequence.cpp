@@ -36,7 +36,7 @@ public:
         string ans = "";
         while(x != 0 || y != 0){
             auto &p = parent[x][y];
-            if(p.first == x || p.second != y)
+            if(p.first == x)
                 ans += str2[y-1];        
             else
                 ans += str1[x-1];

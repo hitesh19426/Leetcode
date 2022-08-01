@@ -34,7 +34,7 @@ public:
         
         int x = m, y = n;
         string ans = "";
-        while(x != 0 || y != 0){
+        while(x && y){
             auto &p = parent[x][y];
             if(p.first == x)
                 ans += str2[y-1];        
@@ -42,6 +42,10 @@ public:
                 ans += str1[x-1];
             x = p.first, y = p.second;
         }
+        while(x != 0)
+            ans += str1[--x];
+        while(y != 0)
+            ans += str2[--y];
         
         reverse(ans.begin(), ans.end());
         return ans;

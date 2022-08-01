@@ -9,10 +9,9 @@ public:
                 permutation[ind] = curr++;
                 for(int j=ind-1; j>lastI; j--)
                     permutation[j] = curr++;
-                lastI = ind++;
-            }else{
-                ind++;
+                lastI = ind;
             }
+            ind++;
         }
         return permutation;
     }

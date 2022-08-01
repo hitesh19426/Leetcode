@@ -1,6 +1,6 @@
 struct Job{
-    int ready_time, count, task;
-    Job(int time, int count, int task) : ready_time(time), count(count), task(task) {}
+    int ready_time, count;
+    Job(int time, int count) : ready_time(time), count(count) {}
     bool operator<(const Job& other) const {
         return count < other.count;
     }
@@ -17,7 +17,7 @@ public:
         queue<Job> waiting;
         for(int i=0; i<26; i++){
             if(count[i] > 0)
-                ready.push(Job(-1, count[i], i));
+                ready.push(Job(-1, count[i]));
         }
         
         int time = 0;
@@ -35,9 +35,8 @@ public:
             auto top = ready.top();
             ready.pop();
             
-            if(top.count > 1){
-                waiting.push(Job(time + n+1, top.count-1, top.task));
-            }
+            if(top.count > 1)
+                waiting.push(Job(time + n+1, top.count-1));
             time++;
         }
         

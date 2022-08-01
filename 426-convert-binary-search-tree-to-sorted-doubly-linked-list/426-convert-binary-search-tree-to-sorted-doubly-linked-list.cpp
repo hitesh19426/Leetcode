@@ -23,32 +23,34 @@ public:
 */
 
 class Solution {
-    pair<Node*, Node*> helper(Node* root){
-        if(root == NULL)
-            return {NULL, NULL};
-        
-        auto [headl, taill] = helper(root->left);
-        auto [headr, tailr] = helper(root->right);
-        
-        if(taill)
-            taill->right = root;
-        if(headr)
-            headr->left = root;
-        root->left = taill;
-        root->right = headr;
-            
-        auto newhead = (headl ? headl : root);
-        auto newtail = (tailr ? tailr : root);
-        
-        return {newhead, newtail};
-    }
 public:
     Node* treeToDoublyList(Node* root) {
         if(root == NULL)
             return NULL;
-        auto [head, tail] = helper(root);
-        tail->right = head;
+        
+        stack<Node*> stack;
+        Node* dummy = new Node(-1), *tail = dummy;
+        
+        while(root || !stack.empty()){
+            while(root){
+                stack.push(root);
+                root = root->left;
+            }
+            auto node = stack.top();
+            stack.pop();
+            
+            tail->right = node;
+            node->left = tail;
+            tail = node;
+            
+            root = node->right;
+        }
+        
+        auto head = dummy->right;
+        delete dummy;
+        
         head->left = tail;
+        tail->right = head;
         return head;
     }
 };

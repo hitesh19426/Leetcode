@@ -2,7 +2,7 @@ class Solution {
 public:
     string shortestCommonSupersequence(string str1, string str2) {
         int m = str1.size(), n = str2.size();
-        vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
+        int dp[m+1][n+1];
         vector<vector<pair<int, int>>> parent(m+1, vector<pair<int, int>>(n+1, {-1, -1}));
         
         dp[0][0] = 0;

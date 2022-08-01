@@ -16,3 +16,7 @@ public:
         return permutation;
     }
 };
+/*
+T(N) = O(N)
+S(N) = O(1)
+*/

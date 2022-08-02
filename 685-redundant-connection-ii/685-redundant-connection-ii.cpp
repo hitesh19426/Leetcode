@@ -35,18 +35,19 @@ public:
     vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
         int n = edges.size();
         vector<int> parent(n+1, -1), first, second, last;
-        // int first = -1, second = -1, last = -1;
         bool multi_parent = false, cycle = false;
         UnionFind uf(n+1);
         
         for(int i=0; i<n; i++){
             int par = edges[i][0], child = edges[i][1];
+            // if parent exists, we do not enter second edge to union edge, so it does not count towards cycle
             if(parent[child] != -1){    // if parent already exists, store first and second edge
                 multi_parent = true;
                 first = {parent[child], child};
                 second = {par, child};
             }
             else{
+                // only add edge to uf if parent does not exists
                 parent[child] = par;
                 if(!uf.union_set(par, child)){
                     cycle = true;
@@ -55,10 +56,21 @@ public:
             }
         }
         
-        if(multi_parent && cycle)
+        if(multi_parent && cycle)   // case 3a
             return first;
-        if(multi_parent)
+        if(multi_parent)    // case 1 + case 3b
             return second;
-        return last;
+        return last;    // case 2
     }
 };
+/*
+case 1: backedge to different branch
+case 2: backedge to root
+case 3: backedge to ancestor other than parent ->     
+    a) edge to be removed is inserted first
+    b) edge to be removed is inserted later
+*/
+/*
+TC(N) = O(N*alpha(N)) on avg, O(N*logN) in worst case
+SC(N) = O(N)
+*/

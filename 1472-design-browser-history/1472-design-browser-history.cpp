@@ -3,14 +3,12 @@ class BrowserHistory {
     vector<string> history;
 public:
     BrowserHistory(string homepage) {
-        history.push_back(homepage);
+        history.resize(5000);
+        history[0] = homepage;
     }
     
     void visit(string url) {
-        if(++pos == history.size())
-            history.push_back(url), n++;
-        else
-            history[pos] = url, n = pos+1;
+        history[++pos] = url, n = pos+1;
     }
     
     string back(int steps) {

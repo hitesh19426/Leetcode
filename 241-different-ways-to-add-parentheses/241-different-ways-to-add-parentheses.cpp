@@ -6,11 +6,14 @@ class Solution {
         {-4, divides<int>()}
     };
     
+    vector<int> dp[20][20];
     vector<int> helper(int low, int high, vector<int>& arr){
         if(low == high)
             return {arr[low]};
+        if(!dp[low][high].empty())
+            return dp[low][high];
         
-        vector<int> ans;
+        // vector<int> ans;
         for(int i=low+2; i<=high; i+=2){
             auto left = helper(low, i-2, arr);
             auto right = helper(i, high, arr);
@@ -18,11 +21,12 @@ class Solution {
             for(int x: left){
                 for(int y: right){
                     int res = mapping[arr[i-1]](x, y);
-                    ans.push_back(res);
+                    dp[low][high].push_back(res);
                 }
             }
         }
-        return ans;
+        // return dp[low][high] = ans;
+        return dp[low][high];
     }
 public:
     vector<int> diffWaysToCompute(string s) {
@@ -39,6 +43,9 @@ public:
                 arr.push_back(value[s[i++]]);
             }
         }
+        
+        for(int i=0; i<20; i++)
+            fill(dp[i], dp[i]+20, vector<int>());
         
         vector<int> ans;
         return helper(0, arr.size()-1, arr);

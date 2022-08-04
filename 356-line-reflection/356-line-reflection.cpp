@@ -8,16 +8,14 @@ public:
         
         int y = INT_MAX;
         for(auto &pair: xs){
-            vector<int> arr;
-            for(auto &x: pair.second)
-                arr.push_back(x);
-            int low = 0, high = arr.size()-1;
+            auto low = pair.second.begin();
+            auto high = pair.second.rbegin();
             if(y == INT_MAX)
-                y = arr[low] + arr[high];
-            while(low <= high){
-                if(y != arr[low] + arr[high])
+                y = *low + *high;
+            while(low != pair.second.end() && high != pair.second.rend() && *low <= *high){
+                if(y != *low + *high)
                     return false;
-                low++, high--;
+                low++, high++;
             }
         }
         return true;

@@ -1,9 +1,8 @@
 class BrowserHistory {
     int pos = 0, n = 1;
-    vector<string> history;
+    string history[5000];
 public:
     BrowserHistory(string homepage) {
-        history.resize(5000);
         history[0] = homepage;
     }
     

@@ -16,9 +16,8 @@ public:
                 remaining--;
             
             while(remaining == 0 && start <= end){
-                if(end - start + 1 < len){
+                if(end - start + 1 < len)
                     len = end-start+1, start_index = start;
-                }
                 if(window[s[start]]-- == count[s[start]])
                     remaining++;
                 start++;

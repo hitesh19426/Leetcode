@@ -49,18 +49,13 @@ public:
             int x = pos[0], y = pos[1];
             if(grid[x][y] == 0){
                 uf.make_set(id(x, y, n));
-                // cout << x << " " << y << endl;
                 for(int k=0; k<4; k++){
                     int newx = x+dir[k], newy = y+dir[k+1];
-                    // cout << newx << " " << newy << "     ";
-                    if(isvalid(newx, newy, m, n) && grid[newx][newy] == 1){
-                        // cout << x << " " << y << " " << newx << " " << newy << endl;
+                    if(isvalid(newx, newy, m, n) && grid[newx][newy] == 1)
                         uf.union_set(id(newx, newy, n), id(x, y, n));
-                    }
                 }
                 grid[x][y] = 1;
             }
-            // cout << endl;
             
             ans.push_back(uf.count);
         }

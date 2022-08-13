@@ -8,7 +8,7 @@ class Solution {
         auto with = helper(arr, ind, target - arr[ind]);
         auto without = helper(arr, ind-1, target);
         
-        auto res = without;
+        auto& res = without;
         for(auto &seq: with){
             seq.push_back(arr[ind]);
             res.push_back(seq);

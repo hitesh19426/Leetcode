@@ -1,23 +1,24 @@
 class Solution {
-    vector<vector<int>> helper(vector<int>& arr, int ind, int target){
-        if(target == 0)
-            return {{}};
-        if(target < 0 || ind < 0)
-            return {};
-        
-        auto with = helper(arr, ind, target - arr[ind]);
-        auto without = helper(arr, ind-1, target);
-        
-        auto& res = without;
-        for(auto &seq: with){
-            seq.push_back(arr[ind]);
-            res.push_back(seq);
+    void helper(vector<int>& arr, int ind, int target, vector<int>& path, vector<vector<int>>& res){
+        if(target == 0){
+            res.push_back(path);
+            return;
+        }
+        if(target < 0 || ind == arr.size()){
+            return;
         }
         
-        return res;
+        helper(arr, ind+1, target, path, res);
+        
+        path.push_back(arr[ind]);
+        helper(arr, ind, target - arr[ind], path, res);
+        path.pop_back();
     }
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        return helper(candidates, candidates.size()-1, target);
+    vector<vector<int>> combinationSum(vector<int>& arr, int target) {
+        vector<vector<int>> res;
+        vector<int> path;
+        helper(arr, 0, target, path, res);
+        return res;
     }
 };

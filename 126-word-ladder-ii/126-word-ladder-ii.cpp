@@ -45,28 +45,23 @@ public:
         dist[start_node] = 0;
         q.push(start_node);
         while(!q.empty()){
-            int sz = q.size();
-            while(sz--){
-                int fr = q.front();
-                q.pop();
-                
-                for(int& v: edges[fr]) {
-                    if(dist[v] > r + 1) {
-                        dist[v] = r + 1 ;
-                        q.push(v);
-                    }
+            int fr = q.front();
+            q.pop();
+
+            for(int& v: edges[fr]) {
+                if(dist[v] > dist[fr] + 1) {
+                    dist[v] = dist[fr] + 1;
+                    q.push(v);
                 }
             }
-            r++ ;
         }
         
-        int min_step = dist[target_node];
-        if(min_step == INT_MAX) {
+        if(dist[target_node] == INT_MAX)
             return {} ;
-        }
+
         queue<vector<string>> q2 ; 
         q2.push({wordList[target_node]}) ;
-        r = min_step ;
+        r = dist[target_node] ;
         while(r) {
              int sz  = q2.size() ;
              for(int i = 0 ; i < sz ; i++) {

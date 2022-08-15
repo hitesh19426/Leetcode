@@ -10,11 +10,8 @@ class Solution {
             return dp[src][maxTime];
         
         int minCost = INF;
-        for(const auto &[v, t]: graph[src]){
-            // if(v == parent)
-            //     continue;
+        for(const auto &[v, t]: graph[src])
             minCost = min(minCost, cost[src] + helper(v, maxTime-t, src, dest, cost, graph));
-        }
         return dp[src][maxTime] = minCost;
     }
 public:

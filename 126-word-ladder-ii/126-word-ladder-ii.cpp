@@ -1,93 +1,87 @@
 class Solution {
 public:
     bool neighbour(string& a, string& b){
-        int cnt = 0 ;
-        for(int i = 0 ; i < a.length() ; i++){
+        int count = 0;
+        for(int i=0 ; i<a.length(); i++){
             if(a[i] != b[i])
-                cnt++;
+                count++;
         }
-        return cnt == 1 ;
+        return count == 1;
     }
     vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
-        // insert beginWord in wordList
-        wordList.insert(wordList.begin(), beginWord);
-        
         // If beginWord existed already, then delete it (using swapping method to delete it).
-        for(int i=1; i<wordList.size(); i++){
-            if(wordList[i] == wordList[0]) {
-                wordList[i] = wordList.back();
-                wordList.pop_back();
-                break;
-            }   
-        }
-        map<string, int> wti ; // word to index
+        if(find(wordList.begin(), wordList.end(), beginWord) == wordList.end())
+            wordList.push_back(beginWord);
+        
+        unordered_map<string, int> index; // word to index
         for(int i=0; i<wordList.size(); i++)
-            wti[wordList[i]] = i;
-        if(wti.find(endWord) == wti.end()) 
+            index[wordList[i]] = i;
+        if(index.find(endWord) == index.end())
             return {};
         
-        // make undirected graph using indexes of nodes instead of words
-        vector<vector<int>> edges(wti.size());
+        // make undirected graph using indexes instead of words
+        vector<vector<int>> graph(index.size());
         for(int i=0; i<wordList.size(); i++) {
             for(int j=i+1; j<wordList.size(); j++) {
                 if(neighbour(wordList[i], wordList[j])){
-                    edges[i].push_back(j);
-                    edges[j].push_back(i);
+                    graph[i].push_back(j);
+                    graph[j].push_back(i);
                 }
             }
         }
         
         // BFS  
-        int start_node = 0, target_node = wti[endWord], r = 0;
+        int start_node = index[endWord], target_node = index[beginWord];
         vector<int> dist(wordList.size(), INT_MAX);
-        queue<int> q;
+        queue<int> queue1;
         
         dist[start_node] = 0;
-        q.push(start_node);
-        while(!q.empty()){
-            int fr = q.front();
-            q.pop();
+        queue1.push(start_node);
+        
+        while(!queue1.empty()){
+            auto node = queue1.front();
+            queue1.pop();
 
-            for(int& v: edges[fr]) {
-                if(dist[v] > dist[fr] + 1) {
-                    dist[v] = dist[fr] + 1;
-                    q.push(v);
+            for(auto& v: graph[node]){
+                if(dist[v] == INT_MAX){
+                    dist[v] = dist[node] + 1;
+                    queue1.push(v);
                 }
             }
         }
         
+        // If target is not reachable
         if(dist[target_node] == INT_MAX)
-            return {} ;
+            return {};
 
-        queue<vector<string>> q2 ; 
-        q2.push({wordList[target_node]}) ;
-        r = dist[target_node] ;
-        while(r) {
-             int sz  = q2.size() ;
-             for(int i = 0 ; i < sz ; i++) {
-                vector<string> seq = q2.front() ;
-                q2.pop();
-                string back = seq.back() ;
-                int curr = wti[back] ;
-                for (int j = 0 ; j < edges[curr].size() ; j++) {
-                    int new_node = edges[curr][j] ;
-                    if (dist[new_node] == r - 1) {
-                        seq.push_back(wordList[new_node]) ;
-                        q2.push(seq) ;
-                        seq.pop_back() ;
+        int min_dist = dist[target_node];
+        queue<vector<int>> queue2;
+        queue2.push({target_node});
+        while(min_dist--) {
+             int size = queue2.size();
+             while(size--){
+                auto path = queue2.front();
+                queue2.pop();
+                auto last = path.back();
+                for (auto& v: graph[last]) {
+                    if(dist[v] == min_dist){
+                        path.push_back(v);
+                        queue2.push(path);
+                        path.pop_back();
                     }
                 }
             }
-            r-- ;
         }
         
         vector<vector<string>> ans;
-        while(!q2.empty()) {
-            vector<string> temp = q2.front() ;
-            q2.pop() ;
-            reverse(begin(temp) , end(temp)) ;
-            ans.push_back(temp) ;
+        while(!queue2.empty()) {
+            vector<string> path;
+            auto seq = queue2.front();
+            queue2.pop();
+            for(auto v: seq)
+                path.push_back(wordList[v]);
+            ans.push_back(path);
         }
-        return ans ;
+        return ans;
     }
 };

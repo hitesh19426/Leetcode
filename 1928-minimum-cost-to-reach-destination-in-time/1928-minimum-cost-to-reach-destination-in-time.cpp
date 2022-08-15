@@ -1,12 +1,12 @@
 class Solution {
     const int INF = 1e7;
-    vector<vector<int>> dp;
+    int dp[1001][1001];
     int helper(int src, int maxTime, int parent, int dest, vector<int>& cost, vector<vector<pair<int, int>>>& graph){
         if(maxTime < 0)
             return INF;
         if(src == dest)
             return cost[dest];
-        if(dp[src][maxTime] != -1)
+        if(dp[src][maxTime] != 0)
             return dp[src][maxTime];
         
         int minCost = INF;
@@ -17,7 +17,7 @@ class Solution {
 public:
     int minCost(int maxTime, vector<vector<int>>& edges, vector<int>& passingFees) {
         int n = passingFees.size();
-        dp.assign(n, vector<int>(maxTime+1, -1));
+        memset(dp, 0, sizeof(dp));
         vector<vector<pair<int, int>>> graph(n);
         for(auto &edge: edges){
             graph[edge[0]].emplace_back(edge[1], edge[2]);

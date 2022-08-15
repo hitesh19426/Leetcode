@@ -1,11 +1,11 @@
 class Graph{
-    unordered_map<int, int> indegree;
-    unordered_map<int, unordered_set<int>> graph;
+    map<int, int> indegree;
+    map<int, set<int>> graph;
 public:
     Graph() {}
     Graph(vector<int>& nodes){
         for(auto& x: nodes)
-            graph[x] = unordered_set<int>();
+            graph[x] = set<int>();
     }
     void addEdge(int a, int b){
         if(graph[a].find(b) == graph[a].end())
@@ -15,10 +15,9 @@ public:
     vector<int> topoSort(){
         int rem = graph.size();
         queue<int> queue;
-        for(auto &[key, value]: graph){
-            if(indegree[key] == 0){
+        for(const auto &[key, value]: graph){
+            if(indegree[key] == 0)
                 queue.push(key);
-            }
         }
         
         vector<int> ans;
@@ -29,9 +28,8 @@ public:
             ans.push_back(node);
             
             for(auto& v: graph[node]){
-                if(--indegree[v] == 0){
+                if(--indegree[v] == 0)
                     queue.push(v);
-                }
             }
         }
         
@@ -66,13 +64,13 @@ public:
             }
         }
         
-        auto groupsOrder = groupsGraph.topoSort();
+        const auto& groupsOrder = groupsGraph.topoSort();
         if(groupsOrder.empty())
             return {};
         
         vector<int> ans;
         for(auto& grp: groupsOrder){
-            auto order = itemsGraph[grp].topoSort();
+            const auto& order = itemsGraph[grp].topoSort();
             if(order.empty())
                 return {};
             ans.insert(ans.end(), order.begin(), order.end());

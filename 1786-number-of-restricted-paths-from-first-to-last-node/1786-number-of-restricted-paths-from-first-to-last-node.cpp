@@ -48,17 +48,8 @@ public:
         }
         
         auto dist = dijkstra(n, graph);
-        // for(auto x: dist)
-        //     cout << x << " ";
-        // cout << endl;
-        
         vector<int> dp(n+1, -1);
-        helper(n, 1, dp, dist, graph);
-        
-        // for(auto x: dp)
-        //     cout << x << " ";
-        // cout << endl;
-        
+        helper(n, 1, dp, dist, graph);        
         return dp[n];
     }
 };

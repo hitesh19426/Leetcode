@@ -2,20 +2,23 @@ class Solution {
     bool isvalid(int x, int y, int m, int n){
         return x>=0 && y>=0 && x<m && y<n;
     }
+    
 public:
     int shortestDistance(vector<vector<int>>& grid) {
         int buildings = 0, m = grid.size(), n = grid[0].size();
-        vector<vector<int>> count(m, vector<int>(n)), dist(m, vector<int>(n));
-        vector<int> dir{1, 0, -1, 0, 1};
+        int count[m][n], dist[m][n];
+        memset(dist, 0, sizeof(dist));
+        memset(count, 0, sizeof(count));
+        int dir[] = {1, 0, -1, 0, 1};
         
-        for(int i=0; i<grid.size(); i++){
-            for(int j=0; j<grid[i].size(); j++){
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
                 if(grid[i][j] == 1){
                     buildings++;
                     queue<pair<int, int>> queue;
-                    vector<vector<bool>> vis(m, vector<bool>(n, false));
+                    bool vis[m][n];
+                    memset(vis, 0, sizeof(vis));
                     queue.push({i, j});
-                    vis[i][j] = true;
                     
                     int currDistance = 0;
                     while(!queue.empty()){
@@ -36,28 +39,9 @@ public:
                         }
                         currDistance++;
                     }
-                    
-                    // for(int i=0; i<m; i++){
-                    //     for(int j=0; j<n; j++)
-                    //         cout << dist[i][j] << " ";
-                    //     cout << endl;
-                    // }
-                    // cout << endl;
                 }
             }
         }
-        
-        // for(int i=0; i<m; i++){
-        //     for(int j=0; j<n; j++)
-        //         cout << count[i][j] << " ";
-        //     cout << endl;
-        // }
-        
-        // for(int i=0; i<m; i++){
-        //     for(int j=0; j<n; j++)
-        //         cout << dist[i][j] << " ";
-        //     cout << endl;
-        // }
         
         int min_dist = INT_MAX;
         for(int i=0; i<m; i++){

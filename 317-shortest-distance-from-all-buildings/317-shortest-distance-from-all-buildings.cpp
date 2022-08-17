@@ -14,7 +14,6 @@ public:
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
                 if(grid[i][j] == 1){
-                    buildings++;
                     queue<pair<int, int>> queue;
                     bool vis[m][n];
                     memset(vis, 0, sizeof(vis));
@@ -29,7 +28,7 @@ public:
 
                             for(int k=0; k<4; k++){
                                 int newx = x+dir[k], newy = y+dir[k+1];
-                                if(isvalid(newx, newy, m, n) && !vis[newx][newy] && grid[newx][newy] == 0){
+                                if(isvalid(newx, newy, m, n) && count[newx][newy] == buildings && !vis[newx][newy] && grid[newx][newy] == 0){
                                     queue.push({newx, newy});
                                     dist[newx][newy] += currDistance+1;
                                     vis[newx][newy] = true;
@@ -39,6 +38,8 @@ public:
                         }
                         currDistance++;
                     }
+                    
+                    buildings++;
                 }
             }
         }

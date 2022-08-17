@@ -1,95 +1,42 @@
 class Solution {
-    int id(int x, int y, int col){
-        return x*col + y;
+    bool isvalid(int x, int y, int m, int n){
+        return x>=0 && y>=0 && x<m && y<n;
     }
     
-    vector<vector<int>> make_graph(vector<vector<int>>& grid){
-        int m = grid.size(), n = grid[0].size();
-        vector<vector<int>> graph(m*n, vector<int>());
-        
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(grid[i][j] != 1){
-                    
-                    for(int x=i+1, y=j; x<=m; x++){
-                        if(x==m || grid[x][y] == 1){
-                            if(x-1 != i)
-                                graph[id(i, j, n)].push_back(id(x-1, y, n));
-                            break;
-                        }
-                    }
-                    
-                    for(int x=i-1, y=j; x>=-1; x--){
-                        if(x==-1 || grid[x][y] == 1){
-                            if(x+1 != i)
-                                graph[id(i, j, n)].push_back(id(x+1, y, n));
-                            break;
-                        }
-                    }
-                    
-                    for(int x=i, y=j+1; y<=n; y++){
-                        if(y==n || grid[x][y] == 1){
-                            if(y-1 != j)
-                                graph[id(i, j, n)].push_back(id(x, y-1, n));
-                            break;
-                        }
-                    }
-                    
-                    for(int x=i, y=j-1; y>=-1; y--){
-                        if(y==-1 || grid[x][y] == 1){
-                            if(y+1 != j)
-                                graph[id(i, j, n)].push_back(id(x, y+1, n));
-                            break;
-                        }
-                    }
-                    
-                }
-            }
+    struct Node{
+        int dist, x, y;
+        Node(int dist, int x, int y) : x(x), y(y), dist(dist) {}
+        bool operator<(const Node& other) const {
+            return dist > other.dist;
         }
-        
-        return graph;
-    }
-    
-    int get_dist(int p1, int p2, int col){
-        int x1 = p1/col, y1 = p1%col, x2 = p2/col, y2 = p2%col;
-        return abs(x1-x2) + abs(y1-y2);
-    }
+    };
 public:
     int shortestDistance(vector<vector<int>>& maze, vector<int>& start, vector<int>& dest) {
-        auto graph = make_graph(maze);
+        int m = maze.size(), n = maze[0].size();
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+        priority_queue<Node> pq;
         
-        // for(int i=0; i<graph.size(); i++){
-        //     for(int x: graph[i])
-        //         cout << x << " ";
-        //     cout << endl;
-        // }
-        int m = maze.size(), n = maze[0].size(), target = id(dest[0], dest[1], n);
-        vector<int> dist(m*n, INT_MAX);
-        set<pair<int, int>> minheap;
+        pq.push(Node(0, start[0], start[1]));
+        dist[start[0]][start[1]] = 0;
         
-        dist[id(start[0], start[1], n)] = 0;
-        minheap.insert({0, id(start[0], start[1], n)});
+        int move[][2] = {{1,0},{0,-1},{-1,0},{0,1}};
         
-        while(!minheap.empty()){
-            // auto pt = queue.front();
-            // queue.pop();
-            auto [curr_dist, ver] = *minheap.begin();
-            minheap.erase(minheap.begin());
+        while(!pq.empty()){
+            auto [d, x, y] = pq.top();
+            pq.pop();
             
-            if(ver == target)
-                return curr_dist;
-            
-            for(auto &v: graph[ver]){
-                int new_dist = curr_dist + get_dist(ver, v, n);
-                if(dist[v] > new_dist){
-                    minheap.erase({dist[v], v});
-                    dist[v] = new_dist;
-                    // queue.push(v);    
-                    minheap.insert({dist[v], v});
+            for(int k=0; k<4; k++){
+                int newx = x, newy = y, w = 0;
+                while(isvalid(newx, newy, m, n) && maze[newx][newy] == 0)
+                    newx += move[k][0], newy += move[k][1], w++;
+                newx -= move[k][0], newy -= move[k][1], w--;
+                if(dist[newx][newy] > d + w){
+                    dist[newx][newy] = d + w;
+                    pq.push(Node(d+w, newx, newy));
                 }
             }
         }
         
-        return -1;
+        return (dist[dest[0]][dest[1]] != INT_MAX ? dist[dest[0]][dest[1]] : -1);
     }
 };

@@ -1,18 +1,15 @@
 class Solution {
 public:
     int minSetSize(vector<int>& arr) {
-        unordered_map<int, int> count;
+        vector<int> count(100001, 0);
         for(auto &x: arr)
             count[x]++;
         
-        vector<int> freq;
-        for(auto &[x, f]: count)
-            freq.push_back(f);
-        sort(freq.begin(), freq.end(), greater<int>());
+        sort(count.begin(), count.end(), greater<int>());
         
         int sum = 0, target = arr.size()/2;
-        for(int i=0; i<freq.size(); i++){
-            sum += freq[i];
+        for(int i=0; i<count.size(); i++){
+            sum += count[i];
             if(sum >= target)
                 return i+1;
         }

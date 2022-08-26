@@ -1,27 +1,23 @@
 class Solution {
-    vector<int> powers;
 public:
-    Solution(){
-        for(int i=0; i<31; i++)
-            powers.push_back((1<<i));
-    }
-    
     bool convert(int n, int p){
-        vector<int> ndigits(10, 0), pdigits(10, 0);
+        int ndigits[10] = {}, pdigits[10] = {};
         while(n){
-            ndigits[n%10]++;
-            n /= 10;
+            ndigits[n%10]++, n /= 10;
         }
         while(p){
-            pdigits[p%10]++;
-            p /= 10;
+            pdigits[p%10]++, p /= 10;
         }
-        return pdigits == ndigits;
+        for(int i=0; i<10; i++){
+            if(pdigits[i] != ndigits[i])
+                return false;
+        }
+        return true;
     }
     
     bool reorderedPowerOf2(int n) {
         for(int i=0; i<31; i++){
-            if(convert(n, powers[i]))
+            if(convert(n, (1<<i) ))
                 return true;
         }
         return false;

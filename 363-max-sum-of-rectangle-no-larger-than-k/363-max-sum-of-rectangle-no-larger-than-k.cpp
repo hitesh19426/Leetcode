@@ -6,8 +6,11 @@ class Solution {
             sum += arr[i];
             if(sum <= k)
                 maxSum = max(maxSum, sum);
-            if(sums.lower_bound(sum-k) != sums.end())   // sum - prefix <= k  => prefix >= sum-k
-                maxSum = max(maxSum, sum - *sums.lower_bound(sum-k));
+            
+            auto itr = sums.lower_bound(sum-k);
+            if(itr != sums.end())   // sum - prefix <= k  => prefix >= sum-k
+                maxSum = max(maxSum, sum - *itr);
+            
             sums.insert(sum);
         }
         return maxSum;

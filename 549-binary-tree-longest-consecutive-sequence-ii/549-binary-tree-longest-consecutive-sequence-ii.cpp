@@ -19,26 +19,23 @@ class Solution {
         
         int inc = 1, dec = 1;
         if(root->left){
-            if(root->left->val == root->val-1){
-                dec += left_dec, ans = max(ans, dec);
+            if(root->left->val+1 == root->val){
+                dec = left_dec+1;
             }
-            else if(root->left->val == root->val+1){
-                inc += left_inc, ans = max(ans, inc);
+            else if(root->left->val-1 == root->val){
+                inc = left_inc+1;
             }   
         }
         if(root->right){
-            if(root->right->val == root->val-1){
-                dec = max(dec, right_dec+1), ans = max(ans, dec);
-                if(root->left && root->left->val == root->val+1)
-                    ans = max(ans, left_inc+right_dec+1);
+            if(root->right->val+1 == root->val){
+                dec = max(dec, right_dec+1);
             }
-            else if(root->right->val == root->val+1){
-                inc = max(inc, right_inc+1), ans = max(ans, inc);
-                if(root->left && root->left->val == root->val-1)
-                    ans = max(ans, left_dec+right_inc+1);
+            else if(root->right->val-1 == root->val){
+                inc = max(inc, right_inc+1);
             }
         }
         
+        ans = max(ans, inc+dec-1);
         return {inc, dec};
     }
 public:

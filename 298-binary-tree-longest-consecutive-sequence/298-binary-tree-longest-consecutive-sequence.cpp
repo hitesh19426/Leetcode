@@ -14,16 +14,17 @@ class Solution {
         if(root == NULL)
             return 0;
         
-        int curr = 1;
         int left = helper(root->left, ans);
         int right = helper(root->right, ans);
         
-        if(root->left && root->left->val == root->val+1)
-            curr += left;
-        if(root->right && root->right->val == root->val+1)
-            curr = max(curr, 1+right);
-        ans = max(ans, curr);
-        return curr;
+        int maxlen = 1;
+        if(root->left && root->left->val-1 == root->val)
+            maxlen = max(maxlen, left+1);
+        if(root->right && root->right->val-1 == root->val)
+            maxlen = max(maxlen, right+1);
+        
+        ans = max(ans, maxlen);
+        return maxlen;
     }
 public:
     int longestConsecutive(TreeNode* root) {

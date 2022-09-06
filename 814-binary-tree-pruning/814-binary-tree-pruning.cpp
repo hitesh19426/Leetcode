@@ -10,22 +10,19 @@
  * };
  */
 class Solution {
-    bool hasOne(TreeNode* &root){
+    void prune(TreeNode* &root){
         if(root == NULL)
-            return false;
+            return;
         
-        bool left = hasOne(root->left);
-        bool right = hasOne(root->right);
-        bool curr = left || right || (root->val == 1);
+        prune(root->left);
+        prune(root->right);
         
-        if(!curr)
+        if(!root->left && !root->right && (root->val != 1))
             root = NULL;
-        
-        return curr;
     }
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        hasOne(root);
+        prune(root);
         return root;
     }
 };

@@ -10,22 +10,22 @@
  * };
  */
 class Solution {
-    int helper(TreeNode* &root){
+    bool hasOne(TreeNode* &root){
         if(root == NULL)
-            return 0;
+            return false;
         
-        int left = helper(root->left);
-        int right = helper(root->right);
-        int sum = left + right + root->val;
+        bool left = hasOne(root->left);
+        bool right = hasOne(root->right);
+        bool curr = left || right || (root->val == 1);
         
-        if(sum == 0)
+        if(!curr)
             root = NULL;
         
-        return sum;
+        return curr;
     }
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        helper(root);
+        hasOne(root);
         return root;
     }
 };

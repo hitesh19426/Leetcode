@@ -2,7 +2,7 @@ class Solution {
 public:
     int lengthOfLongestSubstringTwoDistinct(string s) {
         int start = 0, end = 0, ans = 0;
-        unordered_map<char, int> window;
+        map<char, int> window;
         while(end < s.size()){
             window[s[end]]++;
             

@@ -1,20 +1,17 @@
 class Solution {
 public:
     int numberOfWeakCharacters(vector<vector<int>>& arr) {
-        sort(arr.begin(), arr.end());
+        sort(arr.begin(), arr.end(), [](auto &a, auto &b) -> bool {
+            if(a[0] != b[0])
+                return a[0] < b[0];
+            return a[1] > b[1];
+        });
         
-        int n = arr.size();
-        int maxDefence[n];
-        for(int i=n-1; i>=0; i--){
-            maxDefence[i] = (i == n-1 ? arr[i][1] : max(maxDefence[i+1], arr[i][1]));
-        }
-        
-        int ind = 0, count = 0;
-        for(int i=0; i<n; i++){
-            while(ind < n && arr[ind][0] <= arr[i][0])
-                ind++;
-            if(ind < n && maxDefence[ind] > arr[i][1])
+        int maxDefence = 0, count = 0;
+        for(int i=arr.size()-1; i>=0; i--){
+            if(maxDefence > arr[i][1])
                 count++;
+            maxDefence = max(maxDefence, arr[i][1]);
         }
         
         return count;

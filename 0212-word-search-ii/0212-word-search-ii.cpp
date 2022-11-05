@@ -23,7 +23,7 @@ class Solution {
         return x>=0 && y>=0 && x<m && y<n;
     }
     
-    void dfs(int i, int j, string word, trieNode* root, vector<string>& ans, vector<vector<char>>& board){
+    void dfs(int i, int j, string& word, trieNode* &root, vector<string>& ans, vector<vector<char>>& board){
         if(root->isEnd){
             ans.push_back(word);
             root->isEnd = false;
@@ -36,7 +36,9 @@ class Solution {
             if(isvalid(newx, newy, m, n) && board[newx][newy] != '*'){
                 int ind = board[newx][newy]-'a';
                 if(root->nodes[ind]){
-                    dfs(newx, newy, word+board[newx][newy], root->nodes[ind], ans, board);
+                    word += board[newx][newy];
+                    dfs(newx, newy, word, root->nodes[ind], ans, board);
+                    word.pop_back();
                 }
             }
         }
@@ -54,9 +56,9 @@ public:
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
                 int ind = board[i][j]-'a';
-                string word = "";
+                string word = string(1, board[i][j]);
                 if(root->nodes[ind]){
-                    dfs(i, j, word + board[i][j], root->nodes[ind], ans, board);
+                    dfs(i, j, word, root->nodes[ind], ans, board);
                 }
             }
         }

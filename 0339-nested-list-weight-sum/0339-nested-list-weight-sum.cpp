@@ -29,14 +29,28 @@
  */
 class Solution {
 public:
-    int depthSum(vector<NestedInteger>& nestedList, int depth = 1) {
+    int depthSum(vector<NestedInteger>& nestedList) {
         int ans = 0;
-        for(auto &list: nestedList){
-            if(list.isInteger())
-                ans += list.getInteger()*depth;
-            else
-                ans += depthSum(list.getList(), depth+1);
+        queue<vector<NestedInteger>> queue;
+        queue.push(nestedList);
+        
+        int depth = 1;
+        while(!queue.empty()){
+            int size = queue.size();
+            while(size--){
+                auto front = queue.front();
+                queue.pop();
+                
+                for(auto &list: front){
+                    if(list.isInteger())
+                        ans += list.getInteger()*depth;
+                    else
+                        queue.push(list.getList());
+                }
+            }
+            depth++;
         }
+        
         return ans;
     }
 };

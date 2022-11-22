@@ -13,7 +13,7 @@ public:
             pos[i][0] = 0;
             for(int j=1; j<=n; j++){
                 pos[i][j] = pos[i-1][j];
-                if(j>=i*i && pos[i][j-i*i] != INT_MAX)
+                if(j>=i*i)
                     pos[i][j] = min(pos[i][j], 1+pos[i][j-i*i]);
             }
         }

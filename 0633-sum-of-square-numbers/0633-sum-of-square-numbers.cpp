@@ -1,5 +1,5 @@
 class Solution {
-    unordered_set<long long> sq;
+    set<long long> sq;
 public:
     Solution(){
         const long long n = (1ll<<31ll)-1;
@@ -8,8 +8,8 @@ public:
         }
     }
     bool judgeSquareSum(int c) {
-        for(int x: sq){
-            if(sq.find(c-x) != sq.end())
+        for(long long i=0; i*i<=c; i++){
+            if(sq.find(c-i*i) != sq.end())
                 return true;
         }
         return false;

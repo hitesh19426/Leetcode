@@ -9,8 +9,6 @@ public:
             else
                 high = mid-1;
         }
-        if(ind == -1)
-            return k;
-        return arr[ind] + k - (arr[ind] - (ind+1));
+        return k + (ind+1);
     }
 };

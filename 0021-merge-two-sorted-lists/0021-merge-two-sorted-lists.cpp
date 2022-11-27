@@ -22,15 +22,11 @@ public:
             }
             last = last->next;
         }
-        while(ptr1){
+        if(ptr1){
             last->next = ptr1;
-            ptr1 = ptr1->next;
-            last = last->next;
         }
-        while(ptr2){
+        if(ptr2){
             last->next = ptr2;
-            ptr2 = ptr2->next;
-            last = last->next;
         }
         
         auto newhead = dummy->next;

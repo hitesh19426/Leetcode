@@ -9,15 +9,21 @@
  * };
  */
 class Solution {
+    pair<ListNode*, ListNode*> reverse(ListNode* head){
+        if(head == NULL)
+            return {NULL, NULL};
+        if(head->next == NULL)
+            return {head, head};
+        
+        ListNode* next = head->next;
+        head->next = NULL;
+        
+        auto [nexthead, nexttail] = reverse(next);
+        nexttail->next = head;
+        return {nexthead, head};
+    }
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode* prev = NULL;
-        while(head){
-            ListNode* next = head->next;
-            head->next = prev;
-            prev = head;
-            head = next;
-        }
-        return prev;
+        return reverse(head).first;
     }
 };

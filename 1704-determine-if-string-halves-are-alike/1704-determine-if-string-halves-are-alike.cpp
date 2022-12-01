@@ -1,6 +1,6 @@
 class Solution {
     bool isvowel(char ch){
-        vector<char> vowels{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
+        string vowels = "aeiouAEIOU";
         for(char c: vowels){
             if(c == ch)
                 return true;
